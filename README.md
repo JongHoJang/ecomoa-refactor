@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌱 EcoMoa (에코모아)
+# 🌱 EcoMoa!! (에코모아)
 
 </div>
 
