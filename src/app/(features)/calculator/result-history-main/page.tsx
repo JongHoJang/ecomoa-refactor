@@ -9,15 +9,15 @@ import {
 } from "@/hooks/monthlyData";
 import { MonthlyData } from "@/types/calculate";
 import React, { useEffect, useState } from "react";
-import CompareMonthlyEmissions from "../components/CompareMonthlyEmissions";
 import Link from "next/link";
 import Image from "next/image";
 import { userStore } from "@/zustand/userStore";
 import { UserInfo } from "@/types/userInfoType";
 import { getUserInfo } from "@/api/user-action";
-import Loading from "../components/Loading";
-import HistoryCompareCard from "../components/HistoryCompareCard";
 import { calculateLevelInfo } from "@/utlis/challenge/levelCalculator";
+import Loading from "@/components/calculator/Loading";
+import CompareMonthlyEmissions from "@/components/calculator/CompareMonthlyEmissions";
+import HistoryCompareCard from "@/components/calculator/HistoryCompareCard";
 
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;

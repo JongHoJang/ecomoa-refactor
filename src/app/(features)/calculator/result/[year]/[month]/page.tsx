@@ -3,14 +3,14 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { loadTotalUsersData, loadUserAndFetchData } from "@/hooks/monthlyData";
 import { MonthlyData } from "@/types/calculate";
-import ThisMonthChart from "../../../components/ThisMonthChart";
-import SectionCard from "../../../components/SectionCard";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import TipCard from "../../../components/TipCard";
-import Loading from "../../../components/Loading";
 import { toJpeg } from "html-to-image";
 import Image from "next/image";
+import Loading from "@/components/calculator/Loading";
+import ThisMonthChart from "@/components/calculator/ThisMonthChart";
+import SectionCard from "@/components/calculator/SectionCard";
+import TipCard from "@/components/calculator/TipCard";
 
 const currentMonth = new Date().getMonth() + 1;
 const MIN_LOADING_TIME = 1000; // 최소 로딩 시간

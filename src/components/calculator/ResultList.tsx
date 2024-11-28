@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
-import YearPicker from "../components/YearPicker";
+import YearPicker from "./YearPicker";
 
 interface Props {
   type: string;

@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌱 EcoMoa!! (에코모아)
+# 🌱 EcoMoa! (에코모아)
 
 </div>
 
@@ -187,7 +187,6 @@ rose970515@naver.com<br><br>
 </table>
 </div>
 
-
 <div align="center">
 <table>
 <tr>
@@ -199,7 +198,6 @@ rose970515@naver.com<br><br>
 </tr>
 </table>
 </div>
-
 
 <hr>
 <br>
@@ -311,7 +309,6 @@ const { error: loginError } = await supabase.auth.signInWithPassword({
 </td>
 </tr>
 </table>
-
 
 <hr>
 <br>
@@ -673,7 +670,6 @@ useEffect(() => {
 </table>
 </div>
 
-
 <table  width="100%">
 <tr>
 <td>
@@ -687,7 +683,7 @@ useEffect(() => {
 - **키워드 검색**을 통해 커뮤니티 게시글을 찾아 볼 수 있음
 - **첼린지 인증 게시**판을 통해 어떤 인증들이 있는지 확인 가능, 글작성,수정,삭제 가능
 - 사소한 일상의 일들을 자유게시판에서 확인 & 글 작성 수정,삭제 가능
-- 중고 거래 처럼 아나바다 게시판에서 물건을 판매할 수 있으며  글 작성,수정,삭제 가능
+- 중고 거래 처럼 아나바다 게시판에서 물건을 판매할 수 있으며 글 작성,수정,삭제 가능
 </td>
 </tr>
 </table>
