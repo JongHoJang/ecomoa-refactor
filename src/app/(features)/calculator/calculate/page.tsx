@@ -1,13 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { FormData } from "@/types/calculate";
+import { SubmitHandler } from "react-hook-form";
+import { CarbonFormData } from "@/types/calculate";
 import browserClient from "@/utlis/supabase/browserClient";
 import { useRouter } from "next/navigation";
 import { userStore } from "@/zustand/userStore";
 import Link from "next/link";
 import YearMonthPickerMain from "@/components/calculator/YearMonthPickerMain";
-import InputField from "@/components/calculator/InputField";
+import InputFiledSection from "@/components/calculator/InputFiledSection";
 
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
@@ -20,33 +20,8 @@ const Page = () => {
   const router = useRouter();
   const { user } = userStore();
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors, isValid }
-  } = useForm<FormData>({
-    mode: "onChange" // 필드 값이 변경될 때마다 유효성 검사 실행
-  });
-
-  // 연료 종류에 따른 계산식
-  const getCarCo2 = (car: number, fuelType: string): number => {
-    switch (fuelType) {
-      case "휘발유":
-        return (car / 16.04) * 2.097;
-      case "경유":
-        return (car / 15.35) * 2.582;
-      case "LPG":
-        return (car / 11.06) * 1.868;
-      default:
-        return 0;
-    }
-  };
-
-  // 제출 버튼 submit
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
-    // 입력값을 Number로 변환하고, 값이 없으면 0으로 처리
+  // 제출 버튼 submit (계산 로직)
+  const onSubmit: SubmitHandler<CarbonFormData> = async (data) => {
     const electricity = Number(data.electricity) || 0;
     const water = Number(data.water) || 0;
     const gas = Number(data.gas) || 0;
@@ -55,6 +30,20 @@ const Page = () => {
 
     // 연료 타입이 없으면 기본값으로 '휘발유'를 사용
     const selectedFuelType = fuelType || "휘발유"; // 현재 선택된 연료 타입 사용
+
+    // 연료 종류에 따른 계산식
+    const getCarCo2 = (car: number, fuelType: string): number => {
+      switch (fuelType) {
+        case "휘발유":
+          return (car / 16.04) * 2.097;
+        case "경유":
+          return (car / 15.35) * 2.582;
+        case "LPG":
+          return (car / 11.06) * 1.868;
+        default:
+          return 0;
+      }
+    };
 
     // 총 배출량 계산
     const total =
@@ -136,26 +125,24 @@ const Page = () => {
         }
       }
 
-      // 결과 페이지로 리디렉션
+      // 결과 페이지로 리다이렉션
       router.push(`/calculator/result/${thisYear}/${thisMonth}`);
+      console.log("total =>", total);
+      console.log("year =>", thisYear);
+      console.log("month =>", thisMonth);
     } catch (err) {
       console.error("에러 발생:", err);
       alert("데이터 처리 중 오류가 발생했습니다.");
     }
   };
 
+  // 연도와 달 handler
   const handleYearChange = (year: number) => {
     setThisYear(year);
   };
   const handleMonthChange = (month: number) => {
     setThisMonth(month);
   };
-
-  // 모든 필드 값이 입력되었는지 체크
-
-  const isFormValid = Object.values(watch()).every(
-    (value) => value !== "" && value !== null
-  );
 
   return (
     <>
@@ -177,77 +164,16 @@ const Page = () => {
             <YearMonthPickerMain
               thisYear={thisYear}
               thisMonth={thisMonth}
-              onChangeYear={handleYearChange} // 연도 변경 핸들러 전달
-              onChangeMonth={handleMonthChange} // 월 변경 핸들러 전달
+              onChangeYear={handleYearChange}
+              onChangeMonth={handleMonthChange}
               disabled={false}
             />
           </div>
-          <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex flex-col mb-[44px] md:mb-[48px] gap-[10px]">
-              <InputField
-                id="electricity"
-                label="전기"
-                register={register}
-                errors={errors}
-                requiredMessage="사용한 전기량을 입력해주세요"
-                placeholder="사용하신 에너지 양을 입력해 주세요"
-                unit="kwh/월"
-                setValue={setValue}
-              />
-              <InputField
-                id="gas"
-                label="가스"
-                register={register}
-                errors={errors}
-                requiredMessage="사용한 가스량을 입력해주세요"
-                placeholder="사용하신 에너지 양을 입력해 주세요"
-                unit="m³/월"
-                setValue={setValue}
-              />
-              <InputField
-                id="water"
-                label="수도"
-                register={register}
-                errors={errors}
-                requiredMessage="사용한 수도량을 입력해주세요"
-                placeholder="사용하신 에너지 양을 입력해 주세요"
-                unit="m³/월"
-                setValue={setValue}
-              />
-
-              <InputField
-                id="car"
-                label="자가용"
-                register={register}
-                errors={errors}
-                requiredMessage="연료종류 선택과 사용량을 모두 입력해주세요"
-                placeholder="사용하신 에너지 양을 입력해 주세요"
-                unit="km/월"
-                fuelType={fuelType}
-                setFuelType={setFuelType}
-                setValue={setValue}
-              />
-              <InputField
-                id="waste"
-                label="생활 폐기물"
-                register={register}
-                errors={errors}
-                requiredMessage="폐기물량을 입력해주세요"
-                placeholder="버리시는 폐기물 양을 입력해주세요 "
-                unit="Kg/월"
-                setValue={setValue}
-              />
-            </div>
-            <div className="flex justify-center">
-              <button
-                type="submit"
-                className="w-[320px] md:w-[380px] h-[60px] px-8 bg-[#00691E] text-white text-[18px] font-medium rounded-[40px] disabled:opacity-50"
-                disabled={!isFormValid || !isValid}
-              >
-                <div className="text-center">계산하기</div>
-              </button>
-            </div>
-          </form>
+          <InputFiledSection
+            fuelType={fuelType}
+            setFuelType={setFuelType}
+            onSubmit={onSubmit}
+          />
         </div>
       </div>
     </>

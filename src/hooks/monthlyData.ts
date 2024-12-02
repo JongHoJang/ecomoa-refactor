@@ -70,32 +70,20 @@ export const loadMyAvgData = async (
 
 // 이번달 기준 내 최신 data
 export const loadUserAndFetchData = async (
-  // setUser: SetUserType,
   thisYear: number | null,
   thisMonth: number | null,
   setCurrentData: React.Dispatch<React.SetStateAction<MonthlyData | null>>
 ) => {
-  // user값(user_id 비교용)
   const fetchedUser = await getUser();
   if (fetchedUser) {
-    // setUser(fetchedUser.id);
-
     const { data, error } = await browserClient
       .from("carbon_records")
       .select("*")
       .eq("user_id", fetchedUser.id)
       .eq("year", thisYear)
-      .eq("month", thisMonth)
-      .gte(
-        "created_at",
-        new Date(
-          new Date().getFullYear(),
-          new Date().getMonth(),
-          1
-        ).toISOString()
-      )
-      .order("created_at", { ascending: false })
-      .limit(1);
+      .eq("month", thisMonth);
+
+    // console.log("Fetched Data:", data);
 
     if (error) {
       console.error("Error fetching data:", error);

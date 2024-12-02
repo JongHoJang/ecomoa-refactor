@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import { SectionCardProps } from "./SectionCard";
+import { SectionCardProps } from "./CarbonEmissionCard";
 import Card from "./CardLayout";
 
 const UsageCard: React.FC<SectionCardProps> = ({

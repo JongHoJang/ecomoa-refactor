@@ -1,7 +1,7 @@
 import React from "react";
 import UsageCard from "./UsageCard";
 
-export interface SectionCardProps {
+export interface CarbonEmissionCardProps {
   logo: string;
   title: string;
   usageValue: number | undefined;
@@ -11,7 +11,7 @@ export interface SectionCardProps {
   isLowest: boolean;
 }
 
-const SectionCard: React.FC<SectionCardProps> = ({
+const CarbonEmissionCard: React.FC<CarbonEmissionCardProps> = ({
   logo,
   title,
   usageValue,
@@ -39,4 +39,4 @@ const SectionCard: React.FC<SectionCardProps> = ({
   );
 };
 
-export default SectionCard;
+export default CarbonEmissionCard;
