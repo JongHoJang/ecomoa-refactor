@@ -7,7 +7,7 @@ import { userStore } from "@/zustand/userStore";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useState } from "react";
-import ReturnMypage from "./ReturnMypage";
+import FormHeader from "@/components/shared/FormHeader";
 import PostListSkeleton from "./PostListSkeleton";
 
 const Myposts = ({ type }: TypeProps) => {
@@ -36,8 +36,8 @@ const Myposts = ({ type }: TypeProps) => {
     <div className="min-h-full  max-w-[1200px] mx-auto px-[20px]">
       <div className="pb-[52px] w-full min-w-[360px] px-[20px] md:px-0">
         <div className="flex flex-col w-full ">
-          <div className="w-full md:pl-0">
-            <ReturnMypage />
+          <div className="w-full md:pl-0 mt-[76px]">
+            <FormHeader text="마이페이지 홈" location="/mypage" />
           </div>
           {/* 네비게이션 바 */}
           <div className="my-[36px] md:my-[48px]">

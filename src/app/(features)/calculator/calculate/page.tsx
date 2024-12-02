@@ -1,13 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import InputField from "../components/InputField";
 import { FormData } from "@/types/calculate";
 import browserClient from "@/utlis/supabase/browserClient";
 import { useRouter } from "next/navigation";
 import { userStore } from "@/zustand/userStore";
-import Link from "next/link";
-import YearMonthPickerMain from "@/components/calculator/YearMonthPickerMain";
-import InputField from "@/components/calculator/InputField";
+import YearMonthPickerMain from "../components/YearMonthPickerMain";
+import AutoWidthButton from "@/components/shared/AutoWidthButton";
+import FormHeader from "@/components/shared/FormHeader";
 
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
@@ -151,7 +152,7 @@ const Page = () => {
     setThisMonth(month);
   };
 
-  // 모든 필드 값이 입력되었는지 체크
+  // 모든 필드 값이 입력되었는지 체크s
 
   const isFormValid = Object.values(watch()).every(
     (value) => value !== "" && value !== null
@@ -161,12 +162,9 @@ const Page = () => {
     <>
       <div className="w-full min-w-[360px] max-w-[1200px] mx-auto">
         <div className="px-[20px] md:px-[0px] mb-[80px]">
-          <div className="mt-[36px] md:mt-[76px] mb-[48px] md:mb-[60px]">
-            <Link href="/calculator">
-              <div className="text-[16px]"> &lt; 탄소계산기 홈</div>
-            </Link>
-            <div className="w-full h-[1px] bg-gray-300 my-4 mb-[36px]"></div>
-            <div className="text-[#32343a] text-[24px] md:text-[30px] font-semibold mb-[16px] md:mb-[28px]">
+          <div className="md:mt-[76px] mb-[48px] md:mb-[60px]">
+            <FormHeader text="탄소 계산기 홈" location="/calculator" />
+            <div className="text-[#32343a] text-[24px] mt-[56px] md:text-[30px] font-semibold mb-[16px] md:mb-[28px]">
               탄소 배출량 계산하기
             </div>
             <div className=" text-[16px] md:text-[20px] font-normal text-[#00691E]">
@@ -238,14 +236,13 @@ const Page = () => {
                 setValue={setValue}
               />
             </div>
-            <div className="flex justify-center">
-              <button
+            <div className="mx-auto w-full md:w-[380px] text-[18px] font-medium rounded-[40px]">
+              <AutoWidthButton
+                text="계산하기"
                 type="submit"
-                className="w-[320px] md:w-[380px] h-[60px] px-8 bg-[#00691E] text-white text-[18px] font-medium rounded-[40px] disabled:opacity-50"
+                onClick={() => {}}
                 disabled={!isFormValid || !isValid}
-              >
-                <div className="text-center">계산하기</div>
-              </button>
+              />
             </div>
           </form>
         </div>

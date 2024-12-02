@@ -81,7 +81,7 @@ const AuthCallback = () => {
             <form
               onSubmit={handleSubmit(onSubmit)}
               // => 이 handleSubmit이 실행될 때 다음 모달창이 열리도록 설정해놨기 때문에 useNickName로직 확인 해야함
-              className="overflow-hidden w-[320px] md:w-[585px] h-[360px] rounded-[16px] flex flex-col justify-center items-center mx-auto bg-white"
+              className="flex-col-center overflow-hidden w-[320px] md:w-[585px] h-[360px] rounded-[16px] mx-auto bg-white"
             >
               {/* <div className="relative w-full h-full -pt-[100px]">
                 <X
@@ -143,7 +143,7 @@ const AuthCallback = () => {
                   )}
                 </p>
               </div>
-              <div className="flex flex-col items-center justify-center rounded-[40px]">
+              <div className="flex-col-center rounded-[40px]">
                 <button
                   type="submit"
                   className="mb-[32px] -mt-[15px] text-[#FFFFFF] font-[600] text-[18px] w-[256px] md:w-[380px] h-[60px] p-[11px_32px] rounded-[40px] bg-[#0D9C36] border-none"

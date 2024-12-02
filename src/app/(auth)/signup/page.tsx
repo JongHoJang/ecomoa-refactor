@@ -5,12 +5,12 @@ import { ChevronLeft } from "lucide-react";
 
 const SignupPage = () => {
   return (
-    <div className="h-auto md:mb-[80px] bg-[#FFF] px-[20px] md:px-4">
-      <div className="h-auto md:w-[1200px] mx-auto">
+    <div className="mx-auto md:max-w-[1200px] h-auto md:mb-[80px] bg-[#FFF] px-[20px] md:px-4">
+      <div className="h-auto">
         <div className="flex items-center mb-[16px] md:mb-[20px] pt-[36px] md:pt-[76px]">
           <ChevronLeft />
           <Link href={"/login"} className="text-[#525660]">
-            <span className="text-[16px] font-[600]">챌린지 홈</span>
+            <span className="text-[16px] font-[600]">로그인 홈</span>
           </Link>
         </div>
         <div className="w-full border-b border-b-[#D5D7DD]"></div>
@@ -20,7 +20,7 @@ const SignupPage = () => {
         <p className="text-[#00691E] text-[16px] md:text-[20px] font-[500] leading-[22.4px] md:leading-[30px] tracking-[-0.16px] md:tracking-[-0.2px] mt-[16px] md:mt-[24px]">
           가입을 위한 이메일 정보를 입력해주세요
         </p>
-        <div className="md:mx-auto max-w-md flex flex-col items-center mt-[58px] md:mt-[120px]">
+        <div className="mt-[58px] md:mt-[120px]">
           <SignupForm />
         </div>
       </div>

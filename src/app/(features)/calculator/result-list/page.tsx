@@ -1,4 +1,4 @@
-import ResultList from "@/components/calculator/ResultList";
+import ResultList from "../components/ResultList";
 
 const ResultListPage = () => {
   return (

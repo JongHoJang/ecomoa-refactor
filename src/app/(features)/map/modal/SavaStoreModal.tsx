@@ -50,7 +50,7 @@ const SaveStoreModal = ({ onViewSaved }: SaveStoreModalProps) => {
         />
       </figure>
 
-      <div className="flex flex-col justify-center items-center gap-[28px] mt-[44px] md:mt-[54px]">
+      <div className="flex-col-center gap-[28px] mt-[44px] md:mt-[54px]">
         <h2 className="text-[22px] md:text-[24px] font-semibold">
           저장했어요!
         </h2>
