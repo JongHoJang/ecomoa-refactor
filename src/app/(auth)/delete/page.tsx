@@ -1,10 +1,9 @@
 "use client";
-import ReturnMypage from "@/app/mypage/components/ReturnMypage";
 import { userStore } from "@/zustand/userStore";
 import { Check } from "lucide-react";
 import { ChangeEvent, useState } from "react";
 import DeleteAccountButton from "../login/components/DeleteAccountButton";
-
+import FormHeader from "@/components/shared/FormHeader";
 // 선택 사유에 대한 텍스트 매핑
 const reasonConfig = {
   "not-use": "사용을 잘 안하게 돼요",
@@ -42,8 +41,8 @@ const DeletePage = () => {
 
   return (
     <div className="bg-[#F2F9F2] min-h-full">
-      <div className="pb-[52px] w-full min-w-[360px] max-w-[1200px] mx-auto px-[20px] md:px-0">
-        <ReturnMypage />
+      <div className="pb-[52px] pt-[76px] w-full min-w-[360px] max-w-[1200px] mx-auto px-[20px] md:px-0">
+        <FormHeader text="마이페이지 홈" location="/mypage" />
         <h1 className="text-[24px] md:text-[32px] font-[700] md:font-[500] mt-[36px] md:mt-[48px]">
           회원 탈퇴
         </h1>

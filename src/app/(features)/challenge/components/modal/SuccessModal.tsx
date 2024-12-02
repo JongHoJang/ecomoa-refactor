@@ -49,7 +49,7 @@ const SuccessModal = ({ onClose, selectedChallenges }: SuccessModalProps) => {
         />
       </figure>
 
-      <div className="flex flex-col justify-center items-center md:gap-[10px] mt-[54px] md:mt-[40px]">
+      <div className="flex-col-center md:gap-[10px] mt-[54px] md:mt-[40px]">
         <h2 className="text-lg md:text-[24px] font-semibold text-center">
           챌린지 인증 완료했어요!
         </h2>

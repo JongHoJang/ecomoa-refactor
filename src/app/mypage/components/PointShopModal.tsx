@@ -19,13 +19,13 @@ const PointShopModal = () => {
       <div className="flex flex-col md:flex-row gap-[12px]">
         <button
           onClick={handleClickPoint}
-          className="flex flex-col justify-center items-center text-[#FFFFFF] text-[18px] font-[500] leading-[0-18px] border-none w-[255px] h-[60px] p-[24px_16px] bg-[#00320F] rounded-[40px]"
+          className="flex-col-center text-[#FFFFFF] text-[18px] font-[500] leading-[0-18px] border-none w-[255px] h-[60px] p-[24px_16px] bg-[#00320F] rounded-[40px]"
         >
           포인트 적립, 사용내역
         </button>
         <button
           onClick={handleClickPoint}
-          className="flex flex-col justify-center items-center text-[#FFFFFF] text-[18px] font-[500] leading-[0-18px] border-none w-[255px] h-[60px] p-[24px_16px] bg-[#00320F] rounded-[40px]"
+          className="flex-col-center text-[#FFFFFF] text-[18px] font-[500] leading-[0-18px] border-none w-[255px] h-[60px] p-[24px_16px] bg-[#00320F] rounded-[40px]"
         >
           포인트 교환 샵
         </button>

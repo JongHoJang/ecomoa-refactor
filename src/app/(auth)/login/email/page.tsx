@@ -11,7 +11,7 @@ const EmailLoginPage = () => {
         backgroundPosition: "-245px 90px"
       }}
     >
-      <div className="mx-auto max-w-md flex flex-col items-center sm:pt-20 ">
+      <div className="mx-auto max-w-md flex-col-center">
         <div className="w-[150px] md:w-[180px] mt-[130px] md:mt-[240px] mb-[40px]">
           <Image
             src={"/images/logo.png"}

@@ -149,7 +149,7 @@ const ImageUpload = ({
               onClick={handleAddImage}
               className="relative w-[160px] h-[160px] md:w-[220px] md:h-[220px] flex-shrink-0 rounded-lg overflow-hidden bg-[#F5F5F5] cursor-pointer hover:bg-gray-200 transition-colors"
             >
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400">
+              <div className="absolute inset-0 flex-col-center text-gray-400">
                 <div className="bg-white rounded-full w-[30px] h-[30px] p-2">
                   <Plus className="w-full h-full" />
                 </div>

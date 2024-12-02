@@ -1,16 +1,15 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
-
 import { loadTotalUsersData, loadUserAndFetchData } from "@/hooks/monthlyData";
 import { MonthlyData } from "@/types/calculate";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { toJpeg } from "html-to-image";
 import Image from "next/image";
-import Loading from "@/components/calculator/Loading";
-import ThisMonthChart from "@/components/calculator/ThisMonthChart";
 import TipCardSection from "@/components/calculator/TipCardSection";
 import CarbonEmissionCardList from "@/components/calculator/CarbonEmissionCardList";
+import Loading from "@/components/calculator/Loading";
+import ThisMonthChart from "@/components/calculator/ThisMonthChart";
 
 const currentMonth = new Date().getMonth() + 1;
 const MIN_LOADING_TIME = 1000; // 최소 로딩 시간
@@ -184,7 +183,7 @@ const ResultPage: React.FC = () => {
               className="w-[320px] md:w-[360px] h-[60px] px-8 bg-[#0D9C36] text-white rounded-[85px] text-[18px] font-semibold border-none"
               onClick={handleSaveImage}
             >
-              <div className="flex flex-row justify-center items-center gap-2">
+              <div className="flex-row-center gap-2">
                 <Image
                   src={"/calculate/download_btn.svg"}
                   alt={"tree-image"}

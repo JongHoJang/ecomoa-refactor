@@ -1,6 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import InputField from "@/components/calculator/InputField";
 import { CarbonFormData } from "@/types/calculate";
+import AutoWidthButton from "../shared/AutoWidthButton";
 
 interface InputFiledSectionProps {
   fuelType: string;
@@ -83,14 +84,13 @@ const InputFiledSection: React.FC<InputFiledSectionProps> = ({
           setValue={setValue}
         />
       </div>
-      <div className="flex justify-center">
-        <button
+      <div className="mx-auto w-full md:w-[380px] text-[18px] font-medium rounded-[40px]">
+        <AutoWidthButton
+          text="계산하기"
           type="submit"
-          className="w-[320px] md:w-[380px] h-[60px] px-8 bg-[#00691E] text-white text-[18px] font-medium rounded-[40px] disabled:opacity-50"
+          onClick={() => {}}
           disabled={!isFormValid || !isValid}
-        >
-          <div className="text-center">계산하기</div>
-        </button>
+        />
       </div>
     </form>
   );

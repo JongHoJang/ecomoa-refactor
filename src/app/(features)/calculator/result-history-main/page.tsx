@@ -15,6 +15,7 @@ import { userStore } from "@/zustand/userStore";
 import { UserInfo } from "@/types/userInfoType";
 import { getUserInfo } from "@/api/user-action";
 import { calculateLevelInfo } from "@/utlis/challenge/levelCalculator";
+import FormHeader from "@/components/shared/FormHeader";
 import Loading from "@/components/calculator/Loading";
 import CompareMonthlyEmissions from "@/components/calculator/CompareMonthlyEmissions";
 import HistoryCompareCard from "@/components/calculator/HistoryCompareCard";
@@ -82,11 +83,8 @@ const ResultPageMain = () => {
         <div className="w-full min-w-[360px] max-w-[1200px] mx-auto">
           <div className="px-[20px] md:px-[0px]">
             <div className="pt-[36px] md:pt-[76px] mb-[58px] md:mb-[80px]">
-              <Link href="/calculator">
-                <div className="text-[16px]"> &lt; 탄소계산기 홈</div>
-              </Link>
-              <div className="w-full h-[1px] bg-gray-300 my-4 mb-[36px]"></div>
-              <div className="text-[#32343a] text-[24px] md:text-[30px] font-semibold mb-[16px] md:mb-[28px]">
+              <FormHeader text="탄소 계산기 홈" location="/calculator" />
+              <div className="text-[#32343a] mt-[56px] text-[24px] md:text-[30px] font-semibold mb-[16px] md:mb-[28px]">
                 탄소 배출량 계산 히스토리
               </div>
               <div className=" text-[16px] md:text-[20px] font-normal text-[#00691E] leading-[1]">
@@ -298,7 +296,7 @@ const ResultPageMain = () => {
 
             {/* 나무 영역 */}
             <div className="flex flex-col md:flex-row px] w-full h-[390px] md:h-[300px] rounded-[16px] justify-between items-center bg-[#00320F] px-[32px] py-[40px] md:px-[80px] mb-[58px] md:mb-[80px]">
-              <div className="flex flex-row justify-center items-center gap-8">
+              <div className="flex-row-center gap-8">
                 <div className="flex flex-col">
                   <p className="text-white text-[16px] md:text-[20px] font-bold mb-[24px]">
                     지금까지 심은 나무

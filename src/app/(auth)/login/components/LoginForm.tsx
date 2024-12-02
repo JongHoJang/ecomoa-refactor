@@ -9,6 +9,7 @@ import { getUserInfo } from "@/api/user-action";
 import { userStore } from "@/zustand/userStore";
 import { useEffect, useState } from "react";
 import { CheckIcon, CircleAlert } from "lucide-react";
+import AutoWidthButton from "@/components/shared/AutoWidthButton";
 // Zod 스키마 정의
 const loginSchema = z.object({
   email: z
@@ -88,7 +89,7 @@ const LoginForm = () => {
 
   return (
     <form
-      className="flex flex-col justify-center items-center gap-1 md:p-3"
+      className="flex-col-center gap-1 md:p-3"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="space-y-[12px]">
@@ -163,12 +164,9 @@ const LoginForm = () => {
         </label>
       </div>
 
-      <button
-        type="submit"
-        className="w-[332px] md:w-[400px] h-[62px] mt-[48px] sm:mt-[45px] bg-[#0D9C36] border-none p-2 text-[18px] font-[600] text-[#FFF] rounded-[40px] leading-[25.2px] md:leading-[27px] tracking-[-0.18px]"
-      >
-        로그인 하기
-      </button>
+      <div className="w-[332px] md:w-[400px]  mt-[48px] sm:mt-[45px]">
+        <AutoWidthButton text="로그인 하기" type="submit" onClick={() => {}} />
+      </div>
     </form>
   );
 };

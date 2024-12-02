@@ -5,9 +5,9 @@ import { CarbonFormData } from "@/types/calculate";
 import browserClient from "@/utlis/supabase/browserClient";
 import { useRouter } from "next/navigation";
 import { userStore } from "@/zustand/userStore";
-import Link from "next/link";
 import YearMonthPickerMain from "@/components/calculator/YearMonthPickerMain";
 import InputFiledSection from "@/components/calculator/InputFiledSection";
+import FormHeader from "@/components/shared/FormHeader";
 
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
@@ -144,16 +144,19 @@ const Page = () => {
     setThisMonth(month);
   };
 
+  // 모든 필드 값이 입력되었는지 체크s
+
+  // const isFormValid = Object.values(watch()).every(
+  //   (value) => value !== "" && value !== null
+  // );
+
   return (
     <>
       <div className="w-full min-w-[360px] max-w-[1200px] mx-auto">
         <div className="px-[20px] md:px-[0px] mb-[80px]">
-          <div className="mt-[36px] md:mt-[76px] mb-[48px] md:mb-[60px]">
-            <Link href="/calculator">
-              <div className="text-[16px]"> &lt; 탄소계산기 홈</div>
-            </Link>
-            <div className="w-full h-[1px] bg-gray-300 my-4 mb-[36px]"></div>
-            <div className="text-[#32343a] text-[24px] md:text-[30px] font-semibold mb-[16px] md:mb-[28px]">
+          <div className="md:mt-[76px] mb-[48px] md:mb-[60px]">
+            <FormHeader text="탄소 계산기 홈" location="/calculator" />
+            <div className="text-[#32343a] text-[24px] mt-[56px] md:text-[30px] font-semibold mb-[16px] md:mb-[28px]">
               탄소 배출량 계산하기
             </div>
             <div className=" text-[16px] md:text-[20px] font-normal text-[#00691E]">
@@ -169,11 +172,13 @@ const Page = () => {
               disabled={false}
             />
           </div>
-          <InputFiledSection
-            fuelType={fuelType}
-            setFuelType={setFuelType}
-            onSubmit={onSubmit}
-          />
+          <div className="flex flex-col mb-[44px] md:mb-[48px] gap-[10px]">
+            <InputFiledSection
+              fuelType={fuelType}
+              setFuelType={setFuelType}
+              onSubmit={onSubmit}
+            />
+          </div>
         </div>
       </div>
     </>
