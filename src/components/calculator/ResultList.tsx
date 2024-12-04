@@ -7,6 +7,8 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
 import YearPicker from "./YearPicker";
+import FormHeader from "../shared/FormHeader";
+import HeaderTitle from "../layout/HeaderTitle";
 
 interface Props {
   type: string;
@@ -36,27 +38,21 @@ const ResultList = ({ type }: Props) => {
       <div className="pt-[36px] md:pt-[76px] mb-[48px] md:mb-[60px]">
         {type === "calculate" ? (
           <>
-            <Link href="/calculator/result-history-main">
-              <p className="text-[16px]"> &lt; 탄소 계산기 홈</p>
-            </Link>
-            <div className="w-full h-[1px] bg-gray-300 my-4 mb-[36px]"></div>
+            <div className="mb-[36px] md:mb-[48px] ">
+              <FormHeader text="탄소 계산기 홈" location="/calculator" />
+            </div>
           </>
         ) : (
           <>
-            <Link href="/mypage">
-              <p className="text-[16px]"> &lt; 마이페이지</p>
-            </Link>
-            <div className="w-full h-[1px] bg-gray-300 my-4 mb-[36px]"></div>
+            <div className="mb-[36px] md:mb-[48px] ">
+              <FormHeader text="마이페이지" location="/mypage" />
+            </div>
           </>
         )}
-        <div className="mb-[36px] md:mb-[48px] leading-[1] md:leading-[80%]">
-          <p className="text-[#32343a] text-[24px] md:text-[30px] font-semibold mb-[16px] md:mb-[28px]">
-            탄소 배출량 계산 히스토리
-          </p>
-          <p className=" text-[16px] md:text-[20px] font-normal text-[#00691E]">
-            이번 달 이산화탄소 배출량이 얼마나 발생했을지 확인해봅시다
-          </p>
-        </div>
+        <HeaderTitle
+          title="탄소 배출량 계산 히스토리"
+          description="이번 달 이산화탄소 배출량이 얼마나 발생했을지 확인해봅시다"
+        />
       </div>
 
       {/* 탄소 계산 히스토리 셀렉박스 */}

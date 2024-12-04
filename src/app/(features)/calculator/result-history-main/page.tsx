@@ -19,6 +19,7 @@ import FormHeader from "@/components/shared/FormHeader";
 import Loading from "@/components/calculator/Loading";
 import CompareMonthlyEmissions from "@/components/calculator/CompareMonthlyEmissions";
 import HistoryCompareCard from "@/components/calculator/HistoryCompareCard";
+import HeaderTitle from "@/components/layout/HeaderTitle";
 
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
@@ -82,14 +83,15 @@ const ResultPageMain = () => {
       <div className="bg-[#F2F9F2] min-h-full">
         <div className="w-full min-w-[360px] max-w-[1200px] mx-auto">
           <div className="px-[20px] md:px-[0px]">
-            <div className="pt-[36px] md:pt-[76px] mb-[58px] md:mb-[80px]">
-              <FormHeader text="탄소 계산기 홈" location="/calculator" />
-              <div className="text-[#32343a] mt-[56px] text-[24px] md:text-[30px] font-semibold mb-[16px] md:mb-[28px]">
-                탄소 배출량 계산 히스토리
+            {/* 페이지 header */}
+            <div className="mb-[58px] md:mb-[80px]">
+              <div className="pt-[76px] mb-[36px] md:mb-[48px] ">
+                <FormHeader text="탄소 계산기 홈" location="/calculator" />
               </div>
-              <div className=" text-[16px] md:text-[20px] font-normal text-[#00691E] leading-[1]">
-                이전에 계산한 나의 탄소 배출량 히스토리를 확인해봅시다
-              </div>
+              <HeaderTitle
+                title="탄소 배출량 계산 히스토리"
+                description="이전에 계산한 나의 탄소 배출량 히스토리를 확인해봅시다"
+              />
             </div>
 
             {/* 나의 탄소 히스토리 최상단 데이터 */}

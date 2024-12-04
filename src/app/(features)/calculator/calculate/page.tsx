@@ -8,6 +8,7 @@ import { userStore } from "@/zustand/userStore";
 import YearMonthPickerMain from "@/components/calculator/YearMonthPickerMain";
 import InputFiledSection from "@/components/calculator/InputFiledSection";
 import FormHeader from "@/components/shared/FormHeader";
+import HeaderTitle from "@/components/layout/HeaderTitle";
 
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
@@ -145,14 +146,15 @@ const Page = () => {
     <>
       <div className="w-full min-w-[360px] max-w-[1200px] mx-auto">
         <div className="px-[20px] md:px-[0px] mb-[80px]">
-          <div className="md:mt-[76px] mb-[48px] md:mb-[60px]">
-            <FormHeader text="탄소 계산기 홈" location="/calculator" />
-            <div className="text-[#32343a] text-[24px] mt-[56px] md:text-[30px] font-semibold mb-[16px] md:mb-[28px]">
-              탄소 배출량 계산하기
+          {/* 페이지 header */}
+          <div className="mb-[58px] md:mb-[80px]">
+            <div className="pt-[76px] mb-[36px] md:mb-[48px] ">
+              <FormHeader text="탄소 계산기 홈" location="/calculator" />
             </div>
-            <div className=" text-[16px] md:text-[20px] font-normal text-[#00691E]">
-              이번 달 이산화탄소 배출량을 계산해 보세요
-            </div>
+            <HeaderTitle
+              title="탄소 배출량 계산 결과표"
+              description="이번 달 이산화탄소 배출량을 계산해 보세요"
+            />
           </div>
 
           {/* 날짜 선택 드롭다운 */}

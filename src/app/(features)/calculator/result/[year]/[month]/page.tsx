@@ -3,7 +3,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { loadTotalUsersData, loadUserAndFetchData } from "@/hooks/monthlyData";
 import { MonthlyData } from "@/types/calculate";
 import { useParams } from "next/navigation";
-import Link from "next/link";
 import { toJpeg } from "html-to-image";
 import Image from "next/image";
 import TipCardSection from "@/components/calculator/TipCardSection";
@@ -11,6 +10,7 @@ import CarbonEmissionCardList from "@/components/calculator/CarbonEmissionCardLi
 import Loading from "@/components/calculator/Loading";
 import ThisMonthChart from "@/components/calculator/ThisMonthChart";
 import HeaderTitle from "@/components/layout/HeaderTitle";
+import FormHeader from "@/components/shared/FormHeader";
 
 const currentMonth = new Date().getMonth() + 1;
 const MIN_LOADING_TIME = 1000; // 최소 로딩 시간
@@ -86,11 +86,11 @@ const ResultPage: React.FC = () => {
       <div className="bg-[#F2F9F2] min-h-[1080px]">
         <div className="w-full min-w-[360px] max-w-[1200px] mx-auto pb-[80px]">
           <div className="px-[20px] md:px-[0px] mb-[80px]">
-            <div className="pt-[36px] md:pt-[76px] mb-[58px] md:mb-[80px]">
-              <Link href="/calculator">
-                <div className="text-[16px]"> &lt; 탄소계산기 홈</div>
-              </Link>
-              <div className="w-full h-[1px] bg-gray-300 my-4 mb-[36px]"></div>
+            {/* 페이지 header */}
+            <div className="mb-[58px] md:mb-[80px]">
+              <div className="pt-[76px] mb-[36px] md:mb-[48px] ">
+                <FormHeader text="탄소 계산기 홈" location="/calculator" />
+              </div>
               <HeaderTitle
                 title="탄소 배출량 계산 결과표"
                 description={`${year}년 ${month}월 이산화탄소 배출량이 얼마나 발생했을지 확인해봅시다`}
