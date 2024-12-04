@@ -10,6 +10,7 @@ import TipCardSection from "@/components/calculator/TipCardSection";
 import CarbonEmissionCardList from "@/components/calculator/CarbonEmissionCardList";
 import Loading from "@/components/calculator/Loading";
 import ThisMonthChart from "@/components/calculator/ThisMonthChart";
+import HeaderTitle from "@/components/layout/HeaderTitle";
 
 const currentMonth = new Date().getMonth() + 1;
 const MIN_LOADING_TIME = 1000; // 최소 로딩 시간
@@ -90,18 +91,15 @@ const ResultPage: React.FC = () => {
                 <div className="text-[16px]"> &lt; 탄소계산기 홈</div>
               </Link>
               <div className="w-full h-[1px] bg-gray-300 my-4 mb-[36px]"></div>
-              <div className="text-[#32343a] text-[24px] md:text-[30px] font-semibold mb-[16px] md:mb-[28px]">
-                탄소 배출량 계산 결과표
-              </div>
-              <div className=" text-[16px] md:text-[20px] font-normal text-[#00691E] leading-[1]">
-                {year}년 {month}월 이산화탄소 배출량이 얼마나 발생했을지
-                확인해봅시다
-              </div>
+              <HeaderTitle
+                title="탄소 배출량 계산 결과표"
+                description={`${year}년 ${month}월 이산화탄소 배출량이 얼마나 발생했을지 확인해봅시다`}
+              />
             </div>
             <div>
               <div ref={sectionRef}>
                 <div>
-                  {/* 첫번째 section */}
+                  {/* 해당 월 탄소 배출량 제공 영역 */}
                   <div className="flex flex-col md:flex-row min-w-[320px] h-[484px] w-full md:h-[400px] rounded-[16px] md:justify-between items-center bg-[#00320F] pt-[40px] md:pt-0 px-[32px] mb-[58px] md:mb-[140px] md:px-[80px]">
                     <div className="flex">
                       <div className="flex flex-col">
@@ -145,6 +143,7 @@ const ResultPage: React.FC = () => {
                         </div>
                       </div>
                     </div>
+                    {/* 차트 영역 */}
                     <div className="w-[256px] h-[256px] md:w-[288px] md:h-[288px] flex justify-center items-center bg-white rounded-[24px]">
                       <ThisMonthChart
                         currentData={currentData}
@@ -154,7 +153,7 @@ const ResultPage: React.FC = () => {
                   </div>
                 </div>
 
-                {/* 두번째 섹션 데이터 제공 */}
+                {/* 항목 별 탄소 배출량 영역 */}
                 <div className="mb-[58px] md:mb-[140px]">
                   <p className="text-[14px] md:text-[24px] font-semibold mb-[32px] md:mb-[20px]">
                     항목 별 탄소 배출량
@@ -166,7 +165,7 @@ const ResultPage: React.FC = () => {
               </div>
             </div>
 
-            {/* 세번째 섹션 데이터 제공 */}
+            {/* 팁카드 영역 */}
             <div>
               <div>
                 <div className="text-[14px] md:text-[24px] font-semibold mb-[32px]">
@@ -177,7 +176,7 @@ const ResultPage: React.FC = () => {
             </div>
           </div>
 
-          {/* 이미지 다운로드 버튼 */}
+          {/* 이미지로  다운로드 버튼 */}
           <div className="flex justify-center">
             <button
               className="w-[320px] md:w-[360px] h-[60px] px-8 bg-[#0D9C36] text-white rounded-[85px] text-[18px] font-semibold border-none"

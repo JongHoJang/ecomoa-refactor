@@ -127,9 +127,6 @@ const Page = () => {
 
       // 결과 페이지로 리다이렉션
       router.push(`/calculator/result/${thisYear}/${thisMonth}`);
-      console.log("total =>", total);
-      console.log("year =>", thisYear);
-      console.log("month =>", thisMonth);
     } catch (err) {
       console.error("에러 발생:", err);
       alert("데이터 처리 중 오류가 발생했습니다.");
@@ -144,12 +141,6 @@ const Page = () => {
     setThisMonth(month);
   };
 
-  // 모든 필드 값이 입력되었는지 체크s
-
-  // const isFormValid = Object.values(watch()).every(
-  //   (value) => value !== "" && value !== null
-  // );
-
   return (
     <>
       <div className="w-full min-w-[360px] max-w-[1200px] mx-auto">
@@ -163,6 +154,8 @@ const Page = () => {
               이번 달 이산화탄소 배출량을 계산해 보세요
             </div>
           </div>
+
+          {/* 날짜 선택 드롭다운 */}
           <div className="flex mb-[44px] md:mb-[36px]">
             <YearMonthPickerMain
               thisYear={thisYear}
@@ -172,6 +165,8 @@ const Page = () => {
               disabled={false}
             />
           </div>
+
+          {/* 인풋박스 */}
           <div className="flex flex-col mb-[44px] md:mb-[48px] gap-[10px]">
             <InputFiledSection
               fuelType={fuelType}
