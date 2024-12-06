@@ -1,6 +1,6 @@
 "use client";
 
-import { loadMyAllData } from "@/hooks/monthlyData";
+// import { loadMyAllData } from "@/hooks/monthlyData";
 import { MonthlyData } from "@/types/calculate";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,6 +9,7 @@ import { format } from "date-fns";
 import YearPicker from "./YearPicker";
 import FormHeader from "../shared/FormHeader";
 import HeaderTitle from "../layout/HeaderTitle";
+import { loadMyData } from "@/hooks/monthlyData";
 
 interface Props {
   type: string;
@@ -22,15 +23,21 @@ const ResultList = ({ type }: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      await loadMyAllData(setMyAllData, thisYear);
+      await loadMyData({
+        setMyAllData,
+        selectedYear: thisYear
+      });
       setIsLoading(false);
     };
     fetchData();
   }, [thisYear]);
 
   const handleYearChange = (year: number | null) => {
-    setThisYear(year); // 연도 변경
-    loadMyAllData(setMyAllData, year); // 연도에 맞는 데이터 로드
+    setThisYear(year);
+    loadMyData({
+      setMyAllData,
+      selectedYear: year
+    });
   };
 
   return (

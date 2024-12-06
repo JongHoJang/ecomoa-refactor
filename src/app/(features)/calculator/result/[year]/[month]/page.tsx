@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { loadTotalUsersData, loadUserAndFetchData } from "@/hooks/monthlyData";
+// import { loadTotalUsersData, loadUserAndFetchData } from "@/hooks/monthlyData";
 import { MonthlyData } from "@/types/calculate";
 import { useParams } from "next/navigation";
 import { toJpeg } from "html-to-image";
@@ -11,6 +11,7 @@ import Loading from "@/components/calculator/Loading";
 import ThisMonthChart from "@/components/calculator/ThisMonthChart";
 import HeaderTitle from "@/components/layout/HeaderTitle";
 import FormHeader from "@/components/shared/FormHeader";
+import { loadTotalUsersData, loadUserAndFetchData } from "@/hooks/monthlyData";
 
 const currentMonth = new Date().getMonth() + 1;
 const MIN_LOADING_TIME = 1000; // 최소 로딩 시간
@@ -20,12 +21,10 @@ const ResultPage: React.FC = () => {
   const [totalAvgData, setTotalAvgData] = useState<MonthlyData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const sectionRef = useRef<HTMLDivElement>(null); // 특정 섹션을 감싸는 ref
-
-  // useParams > URL 이동
+  const sectionRef = useRef<HTMLDivElement>(null);
   const params = useParams();
-  const year = params.year;
-  const month = params.month;
+  const year = Number(params.year);
+  const month = Number(params.month);
 
   // 이미지 다운로드 라이브러리 실행 (버튼 핸들러)
   const handleSaveImage = useCallback(() => {
@@ -162,16 +161,14 @@ const ResultPage: React.FC = () => {
                     <CarbonEmissionCardList currentData={currentData} />
                   </div>
                 </div>
-              </div>
-            </div>
 
-            {/* 팁카드 영역 */}
-            <div>
-              <div>
-                <div className="text-[14px] md:text-[24px] font-semibold mb-[32px]">
-                  일상 속 에너지 절약법
+                {/* 팁카드 영역 */}
+                <div>
+                  <div className="text-[14px] md:text-[24px] font-semibold mb-[32px]">
+                    일상 속 에너지 절약법
+                  </div>
+                  <TipCardSection />
                 </div>
-                <TipCardSection />
               </div>
             </div>
           </div>

@@ -1,7 +1,8 @@
 "use client";
 import {
-  loadMyAllData,
-  loadMyAvgData,
+  loadMyData,
+  // loadMyAllData,
+  // loadMyAvgData,
   loadRecentFiveMonthsEmissions,
   loadTopUsersData,
   loadUsersAvgData,
@@ -48,8 +49,13 @@ const ResultPageMain = () => {
       try {
         await Promise.all([
           loadUsersAvgData(setUserAvgData), // 유저 토탈 데이터
-          loadMyAllData(setMyAllData, null), // 내 전체 데이터
-          loadMyAvgData(setMyAllAvgData), // 내 평균 데이터
+          // loadMyAllData(setMyAllData, null), // 내 전체 데이터
+          // loadMyAvgData(setMyAllAvgData), // 내 평균 데이터
+          loadMyData({
+            setMyAllData,
+            setMyAllAvgData,
+            selectedYear: null
+          }),
           loadTopUsersData(setUserTopData), // 유저 최고 데이터
           loadRecentFiveMonthsEmissions(currentYear, currentMonth, 2).then(
             (data) => {

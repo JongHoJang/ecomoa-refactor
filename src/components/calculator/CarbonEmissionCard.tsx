@@ -53,14 +53,14 @@ const CarbonEmissionCard: React.FC<CarbonEmissionCardProps> = ({
         <div className="w-full flex flex-row justify-between gap-5">
           <Card
             title="에너지 사용량"
-            value={usageValue ?? 0}
+            value={usageValue ?? 0} // 기본값 0 설정
             unit={unit}
             bgColor="bg-[#f5f7f7]"
             textColor="[#32343a]"
           />
           <Card
             title="Co2 배출량"
-            value={co2Value ?? 0}
+            value={co2Value ?? 0} // 기본값 0 설정
             unit="kg"
             bgColor="bg-[#CBF5CB]"
             textColor="[#0D9C36]"

@@ -104,3 +104,12 @@ export interface CarbonFormData {
   car: number;
   waste: number;
 }
+
+export interface CarbonFormDataFuelType {
+  electricity: number;
+  water: number;
+  gas: number;
+  car: number;
+  waste: number;
+  fuelType: "휘발유" | "경유" | "LPG"; // 제한된 문자열 값
+}
