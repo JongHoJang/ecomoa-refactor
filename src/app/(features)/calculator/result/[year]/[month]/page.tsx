@@ -1,44 +1,51 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
-// import { loadTotalUsersData, loadUserAndFetchData } from "@/hooks/monthlyData";
-import { MonthlyData } from "@/types/calculate";
+import { useCallback, useRef } from "react";
+
 import { useParams } from "next/navigation";
 import { toJpeg } from "html-to-image";
 import Image from "next/image";
 import TipCardSection from "@/components/calculator/TipCardSection";
 import CarbonEmissionCardList from "@/components/calculator/CarbonEmissionCardList";
-import Loading from "@/components/calculator/Loading";
 import ThisMonthChart from "@/components/calculator/ThisMonthChart";
 import HeaderTitle from "@/components/layout/HeaderTitle";
 import FormHeader from "@/components/shared/FormHeader";
-import { loadTotalUsersData, loadUserAndFetchData } from "@/hooks/monthlyData";
+import { useMyCarbonData, useUserCarbonData } from "@/hooks/useUserCarbonData";
+import Loading from "@/components/calculator/Loading";
 
 const currentMonth = new Date().getMonth() + 1;
-const MIN_LOADING_TIME = 1000; // 최소 로딩 시간
 
 const ResultPage: React.FC = () => {
-  const [currentData, setCurrentData] = useState<MonthlyData | null>(null);
-  const [totalAvgData, setTotalAvgData] = useState<MonthlyData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
   const sectionRef = useRef<HTMLDivElement>(null);
   const params = useParams();
   const year = Number(params.year);
   const month = Number(params.month);
 
+  const {
+    data: currentData,
+    isLoading: isCurrentDataLoading,
+    isError: isCurrentDataError
+  } = useMyCarbonData(year, month);
+
+  const {
+    data: totalAvgData,
+    isLoading: isUserDataLoading,
+    isError: isUserDataError
+  } = useUserCarbonData(year, month);
+
+  const isLoading = isCurrentDataLoading || isUserDataLoading;
+  const isError = isCurrentDataError || isUserDataError;
+
   // 이미지 다운로드 라이브러리 실행 (버튼 핸들러)
   const handleSaveImage = useCallback(() => {
     if (!sectionRef.current) return;
 
-    // 캡처 영역의 크기 및 배경색 확장
     toJpeg(sectionRef.current, {
       quality: 0.95,
-      canvasWidth: sectionRef.current.offsetWidth + 100, // 기존 너비 + 50px * 2
-      canvasHeight: sectionRef.current.offsetHeight + 100, // 기존 높이 + 50px * 2
-      backgroundColor: "white" // 배경 흰색 설정
+      canvasWidth: sectionRef.current.offsetWidth + 100,
+      canvasHeight: sectionRef.current.offsetHeight + 100,
+      backgroundColor: "white"
     })
       .then((dataUrl) => {
-        // 다운로드 링크 생성 및 실행
         const link = document.createElement("a");
         link.download = `${year}-${month}-history.jpeg`;
         link.href = dataUrl;
@@ -48,36 +55,14 @@ const ResultPage: React.FC = () => {
       .catch((error) => {
         console.error("Image saving failed:", error);
       });
-  }, []);
-
-  // 데이터 패칭
-  useEffect(() => {
-    if (year && month) {
-      const fetchStartTime = Date.now();
-
-      Promise.all([
-        loadUserAndFetchData(Number(year), Number(month), setCurrentData),
-        loadTotalUsersData(Number(year), Number(month), setTotalAvgData)
-      ])
-        .then(() => {
-          const timeElapsed = Date.now() - fetchStartTime;
-          const remainingTime = MIN_LOADING_TIME - timeElapsed;
-
-          if (remainingTime > 0) {
-            setTimeout(() => setIsLoading(false), remainingTime);
-          } else {
-            setIsLoading(false);
-          }
-        })
-        .catch((error) => {
-          console.error("데이터 로드 실패:", error);
-          setIsLoading(false);
-        });
-    }
   }, [year, month]);
 
   if (isLoading) {
     return <Loading />;
+  }
+
+  if (isError) {
+    return <p>Error occurred while fetching data.</p>;
   }
 
   return (
@@ -106,7 +91,7 @@ const ResultPage: React.FC = () => {
                           {month !== null && currentMonth !== null
                             ? Number(month) === currentMonth
                               ? "이번 달"
-                              : `${month}월`
+                              : `${month}월` // Corrected string interpolation
                             : ""}{" "}
                           총 탄소 배출량은
                         </div>
@@ -145,8 +130,8 @@ const ResultPage: React.FC = () => {
                     {/* 차트 영역 */}
                     <div className="w-[256px] h-[256px] md:w-[288px] md:h-[288px] flex justify-center items-center bg-white rounded-[24px]">
                       <ThisMonthChart
-                        currentData={currentData}
-                        totalAvgData={totalAvgData}
+                        currentData={currentData || null}
+                        totalAvgData={totalAvgData || null}
                       />
                     </div>
                   </div>
@@ -158,7 +143,7 @@ const ResultPage: React.FC = () => {
                     항목 별 탄소 배출량
                   </p>
                   <div className="flex flex-wrap w-full md:w-[1200px] gap-[12px] md:gap-[30px]">
-                    <CarbonEmissionCardList currentData={currentData} />
+                    <CarbonEmissionCardList currentData={currentData || null} />
                   </div>
                 </div>
 

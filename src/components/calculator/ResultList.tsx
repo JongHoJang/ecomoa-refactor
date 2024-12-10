@@ -2,14 +2,16 @@
 
 // import { loadMyAllData } from "@/hooks/monthlyData";
 import { MonthlyData } from "@/types/calculate";
-import Image from "next/image";
-import Link from "next/link";
+// import Image from "next/image";
+// import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { format } from "date-fns";
+// import { format } from "date-fns";
 import YearPicker from "./YearPicker";
 import FormHeader from "../shared/FormHeader";
 import HeaderTitle from "../layout/HeaderTitle";
 import { loadMyData } from "@/hooks/monthlyData";
+import ResultItem from "./ResultItem";
+import StatusMessage from "./StatusMessage";
 
 interface Props {
   type: string;
@@ -83,11 +85,7 @@ const ResultList = ({ type }: Props) => {
       <div className="w-full min-w-[320px] md:max-w-[1200px] overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
         {isLoading ? (
           <div className="flex flex-row w-full min-w-[320px] h-[500px] p-[24px] text-[16px]">
-            <div className="flex items-center justify-center mx-auto">
-              <p className="text-gray-500 text-[16px]">
-                데이터를 가지고 오는 중 입니다...
-              </p>
-            </div>
+            <StatusMessage type="loading" />
           </div>
         ) : myAllData && myAllData.length > 0 ? (
           myAllData
@@ -98,53 +96,17 @@ const ResultList = ({ type }: Props) => {
               }
               return b.year - a.year;
             })
-            .map((data, index, array) => {
-              const showYear =
-                index === 0 || data.year !== array[index - 1].year; // 첫 항목이거나 이전 항목과 연도가 다를 때만 표시
-
-              return (
-                <div key={new Date(data.created_at as string).toISOString()}>
-                  {showYear && (
-                    <div className="text-[14px] font-bold mt-[20px] mb-[4px] ml-4">
-                      {data.year}년도
-                    </div>
-                  )}
-                  <Link href={`/calculator/result/${data.year}/${data.month}`}>
-                    <div className="flex flex-row h-[92px] p-[24px]">
-                      <Image
-                        src={
-                          index % 2 === 0
-                            ? "/calculate/History_Icon_Blue.svg"
-                            : "/calculate/History_Icon_Red.svg"
-                        }
-                        alt={"electricity_color"}
-                        width={48}
-                        height={48}
-                      />
-                      <div className="flex flex-col justify-center ml-5 gap-[16px]">
-                        <div className="text-[20px] font-semibold">
-                          {data.month}월 탄소 계산 결과표
-                        </div>
-                        <div className="text-[#A1A7B4]">
-                          {format(
-                            new Date(data.created_at as string),
-                            "yyyy. MM. dd"
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                  <div className="w-full h-[1px] bg-gray-300 my-1 px-2"></div>
-                </div>
-              );
-            })
+            .map((data, index, array) => (
+              <ResultItem
+                key={new Date(data.created_at as string).toISOString()}
+                data={data}
+                showYear={index === 0 || data.year !== array[index - 1].year}
+                index={index}
+              />
+            ))
         ) : (
           <div className="flex flex-row w-full min-w-[320px] h-[92px] p-[24px] text-[16px]">
-            <div className="flex items-center justify-center mx-auto">
-              <p className="text-gray-500 text-lg">
-                탄소계산기를 통해 계산한 데이터가 없습니다.
-              </p>
-            </div>
+            <StatusMessage type="empty" />
           </div>
         )}
       </div>
