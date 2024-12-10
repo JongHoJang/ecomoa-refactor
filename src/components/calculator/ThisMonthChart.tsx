@@ -10,7 +10,6 @@ import {
   Legend
 } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { ThisMonthResultChartProps } from "@/types/calculate";
 import { CustomDataLabelsContext } from "./MonthlyChartMain";
 import { ScriptableScaleContext } from "chart.js";
 
@@ -22,6 +21,13 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+
+type CarbonData = { carbon_emissions: number } | null;
+
+interface ThisMonthResultChartProps {
+  currentData: CarbonData;
+  totalAvgData: CarbonData;
+}
 
 const ThisMonthChart: React.FC<ThisMonthResultChartProps> = ({
   currentData,

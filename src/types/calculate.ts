@@ -92,11 +92,6 @@ export interface ThisMonthChartProps {
   lastTotalAvgData: MonthlyData | null;
 }
 
-export interface ThisMonthResultChartProps {
-  currentData: MonthlyData | null;
-  totalAvgData: MonthlyData | null;
-}
-
 export interface CarbonFormData {
   electricity: number;
   water: number;

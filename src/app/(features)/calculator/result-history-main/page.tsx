@@ -49,8 +49,6 @@ const ResultPageMain = () => {
       try {
         await Promise.all([
           loadUsersAvgData(setUserAvgData), // 유저 토탈 데이터
-          // loadMyAllData(setMyAllData, null), // 내 전체 데이터
-          // loadMyAvgData(setMyAllAvgData), // 내 평균 데이터
           loadMyData({
             setMyAllData,
             setMyAllAvgData,
@@ -69,7 +67,7 @@ const ResultPageMain = () => {
         setIsLoading(false);
       } catch (error) {
         console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
-        setIsLoading(false); // 오류가 발생한 경우에도 로딩을 종료
+        setIsLoading(false);
       }
     };
 
@@ -84,6 +82,8 @@ const ResultPageMain = () => {
       />
     );
   }
+
+  console.log(myAllData);
   return (
     <>
       <div className="bg-[#F2F9F2] min-h-full">

@@ -10,8 +10,10 @@ const HistoryCompareCard: React.FC<HistoryCompareCardProps> = ({
   myAllData,
   userAllData
 }) => {
-  const thisMonthMyAvg = myAllData?.[1]?.carbon_emissions ?? 0; // 기본값 0 설정
-  const LastMonthMyAvg = myAllData?.[0]?.carbon_emissions ?? 0; // 저번달 내 평균
+  const thisMonthMyAvg =
+    myAllData?.[myAllData.length - 1]?.carbon_emissions ?? 0; // 기본값 0 설정
+  const LastMonthMyAvg =
+    myAllData?.[myAllData.length - 2]?.carbon_emissions ?? 0; // 저번달 내 평균
   const thisMonthUserAvg = userAllData?.[1]?.carbon_emissions ?? 0; // 이번달 유저 평균
 
   let comment = " ";
@@ -55,6 +57,12 @@ const HistoryCompareCard: React.FC<HistoryCompareCardProps> = ({
   } else {
     comment = "데이터에 오류가 있습니다";
   }
+  console.log(
+    "thisMonthMyAvg, =>",
+    thisMonthMyAvg,
+    "LastMonthMyAvg, =>",
+    LastMonthMyAvg
+  );
 
   return (
     <>

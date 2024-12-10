@@ -6,11 +6,11 @@ import { toJpeg } from "html-to-image";
 import Image from "next/image";
 import TipCardSection from "@/components/calculator/TipCardSection";
 import CarbonEmissionCardList from "@/components/calculator/CarbonEmissionCardList";
-import ThisMonthChart from "@/components/calculator/ThisMonthChart";
 import HeaderTitle from "@/components/layout/HeaderTitle";
 import FormHeader from "@/components/shared/FormHeader";
 import { useMyCarbonData, useUserCarbonData } from "@/hooks/useUserCarbonData";
 import Loading from "@/components/calculator/Loading";
+import EmissionUpAndDown from "@/components/calculator/EmissionUpAndDown";
 
 const currentMonth = new Date().getMonth() + 1;
 
@@ -62,7 +62,7 @@ const ResultPage: React.FC = () => {
   }
 
   if (isError) {
-    return <p>Error occurred while fetching data.</p>;
+    return <p>에러입니다~</p>;
   }
 
   return (
@@ -82,60 +82,12 @@ const ResultPage: React.FC = () => {
             </div>
             <div>
               <div ref={sectionRef}>
-                <div>
-                  {/* 해당 월 탄소 배출량 제공 영역 */}
-                  <div className="flex flex-col md:flex-row min-w-[320px] h-[484px] w-full md:h-[400px] rounded-[16px] md:justify-between items-center bg-[#00320F] pt-[40px] md:pt-0 px-[32px] mb-[58px] md:mb-[140px] md:px-[80px]">
-                    <div className="flex">
-                      <div className="flex flex-col">
-                        <div className="text-[24px] md:text-[36px] font-bold text-white mb-[28px] md:mb-[36px]">
-                          {month !== null && currentMonth !== null
-                            ? Number(month) === currentMonth
-                              ? "이번 달"
-                              : `${month}월` // Corrected string interpolation
-                            : ""}{" "}
-                          총 탄소 배출량은
-                        </div>
-                        <div className="text-[#FFD64E] text-[36px] md:text-[48px] font-semibold mb-[30px] md:mb-[40px]">
-                          {currentData?.carbon_emissions}kg
-                        </div>
-                        <div className="text-[14px] md:text-[16px] text-white mb-[48px] md:mb-0">
-                          탄소 배출량이 평균 보다{" "}
-                          {totalAvgData && currentData ? (
-                            currentData.carbon_emissions <
-                            totalAvgData.carbon_emissions ? (
-                              <>
-                                {(
-                                  100 -
-                                  (currentData.carbon_emissions /
-                                    totalAvgData.carbon_emissions) *
-                                    100
-                                ).toFixed(2)}{" "}
-                                % 낮아요!
-                              </>
-                            ) : (
-                              <>
-                                {(
-                                  (currentData.carbon_emissions /
-                                    totalAvgData.carbon_emissions) *
-                                    100 -
-                                  100
-                                ).toFixed(2)}{" "}
-                                % 높아요!
-                              </>
-                            )
-                          ) : null}
-                        </div>
-                      </div>
-                    </div>
-                    {/* 차트 영역 */}
-                    <div className="w-[256px] h-[256px] md:w-[288px] md:h-[288px] flex justify-center items-center bg-white rounded-[24px]">
-                      <ThisMonthChart
-                        currentData={currentData || null}
-                        totalAvgData={totalAvgData || null}
-                      />
-                    </div>
-                  </div>
-                </div>
+                <EmissionUpAndDown
+                  month={month}
+                  currentMonth={currentMonth}
+                  currentData={currentData || null}
+                  totalAvgData={totalAvgData || null}
+                />
 
                 {/* 항목 별 탄소 배출량 영역 */}
                 <div className="mb-[58px] md:mb-[140px]">

@@ -39,18 +39,29 @@ export const loadMyData = async ({
     return;
   }
 
+  // 정렬 추가: year > month 순서
+  const sortedData =
+    data && Array.isArray(data)
+      ? data.sort((a, b) => {
+          if (a.year !== b.year) {
+            return a.year - b.year; // 연도 기준 오름차순
+          }
+          return a.month - b.month; // 연도가 같으면 월 기준 오름차순
+        })
+      : null;
+
   // 전체 데이터 업데이트
   if (setMyAllData) {
-    setMyAllData(data && data.length > 0 ? data : null);
+    setMyAllData(sortedData && sortedData.length > 0 ? sortedData : null);
   }
 
   // 평균값 계산 및 업데이트
-  if (setMyAllAvgData && data && Array.isArray(data) && data.length > 0) {
-    const totalEmission = data.reduce(
+  if (setMyAllAvgData && sortedData && sortedData.length > 0) {
+    const totalEmission = sortedData.reduce(
       (sum, record) => sum + (record.carbon_emissions || 0),
       0
     );
-    const avgEmission = totalEmission / data.length;
+    const avgEmission = totalEmission / sortedData.length;
     setMyAllAvgData(avgEmission);
   } else if (setMyAllAvgData) {
     setMyAllAvgData(0);

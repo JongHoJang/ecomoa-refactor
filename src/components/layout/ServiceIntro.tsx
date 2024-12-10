@@ -12,8 +12,7 @@ import lottieJson4 from "../../../public/service/Graphic4.json";
 import lottieJson5 from "../../../public/service/Graphic5.json";
 import lottieJson10 from "../../../public/service/Graphic10.json";
 import ServiceChallengeCard from "../ui/ServiceChallengeCard";
-import { ServiceCard, ServiceLevels } from "@/utlis/home/service";
-import ServiceCharacterCard from "../ui/ServiceCharacterCard";
+import { ServiceCard } from "@/utlis/home/service";
 
 const ServiceIntro = () => {
   const lastSectionRef = useRef(null); // 마지막 섹션을 위한 ref
