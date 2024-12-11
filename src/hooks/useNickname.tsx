@@ -106,7 +106,7 @@ export const useNickname = () => {
           <div className="flex flex-col min-w-[320px] h-full md:w-[585px] md:h-[600px] overflow-x-hidden">
             <div className="w-full md:w-[585px] md:h-[600px]">
               <div
-                className="z-1 flex flex-col justify-center items-center bg-white"
+                className="z-1 flex-col-center bg-white"
                 style={{ borderRadius: "12px" }}
               >
                 {/* <div className="flex items-center relative w-[320px] md:w-[585px] h-[234px] md:h-[341px] mb-6 rounded-t-[12px]"> */}
@@ -124,7 +124,7 @@ export const useNickname = () => {
                   />
                 </div>
 
-                <div className="flex flex-col justify-center items-center h-[249px]">
+                <div className="flex-col-center h-[249px]">
                   <div className="text-[20px] md:text-[24px] font-[600] leading-[36px] text-center w-full md:w-[540px] h-[71px] mb-[27px] px-[32px] md:px-0">
                     <div className="text-[20px] md:text-[24px] font-[600] leading-[28px] md:leading-[33.6px] tracking-[-0.2px] md:tracking-[-0.24px]">
                       <p className="md:mt-[15px] md:mb-[32px]">

@@ -1,5 +1,4 @@
-import ResultList from "@/app/(features)/calculator/components/ResultList";
-
+import ResultList from "@/components/calculator/ResultList";
 import React from "react";
 
 const page = () => {

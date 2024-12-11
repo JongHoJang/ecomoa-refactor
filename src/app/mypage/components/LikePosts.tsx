@@ -8,8 +8,8 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import ReturnMypage from "./ReturnMypage";
 import PostListSkeleton from "./PostListSkeleton";
+import FormHeader from "@/components/shared/FormHeader";
 
 const MyLike = ({ type }: TypeProps) => {
   const { user } = userStore();
@@ -41,8 +41,8 @@ const MyLike = ({ type }: TypeProps) => {
   return (
     <div className="flex flex-col w-full min-h-screen md:max-w-[1200px] mx-auto px-[20px]">
       <div className="w-full">
-        <div className="w-full md:pl-0">
-          <ReturnMypage />
+        <div className="w-full md:pl-0 mt-[76px]">
+          <FormHeader text="마이페이지 홈" location="/mypage" />
         </div>
         {/* 네비게이션 바 */}
         <div className="my-[48px]">

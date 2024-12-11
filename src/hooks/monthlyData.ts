@@ -2,100 +2,86 @@ import { getUser } from "@/api/auth-actions";
 import { MonthlyData } from "@/types/calculate";
 import browserClient from "@/utlis/supabase/browserClient";
 
-// 내 전체 데이터
-export const loadMyAllData = async (
-  setMyAllData: React.Dispatch<React.SetStateAction<MonthlyData[] | null>>,
-  selectedYear: number | null
-) => {
+// 내 데이터 패칭
+export const loadMyData = async ({
+  setMyAllData,
+  setMyAllAvgData,
+  selectedYear
+}: {
+  setMyAllData?: React.Dispatch<React.SetStateAction<MonthlyData[] | null>>;
+  setMyAllAvgData?: React.Dispatch<React.SetStateAction<number>>;
+  selectedYear: number | null;
+}) => {
   const fetchedUser = await getUser();
-  if (fetchedUser) {
-    let query = browserClient
-      .from("carbon_records")
-      .select("*, created_at")
-      .eq("user_id", fetchedUser.id);
+  if (!fetchedUser) {
+    // 유저 정보가 없으면 상태를 초기화
+    if (setMyAllData) setMyAllData(null);
+    if (setMyAllAvgData) setMyAllAvgData(0);
+    return;
+  }
 
-    // selectedYear가 null이 아닐 때만 연도 필터 추가
-    if (selectedYear !== null) {
-      query = query.eq("year", selectedYear);
-    }
+  let query = browserClient
+    .from("carbon_records")
+    .select("*, created_at, carbon_emissions")
+    .eq("user_id", fetchedUser.id);
 
-    const { data, error } = await query;
+  // selectedYear가 null이 아닐 때만 연도 필터 추가
+  if (selectedYear !== null) {
+    query = query.eq("year", selectedYear);
+  }
 
-    if (error) {
-      console.error("Error fetching data:", error);
-      setMyAllData(null); // 오류 발생 시 null로 설정
-      return;
-    }
+  const { data, error } = await query;
 
-    // 가져온 데이터를 상태에 업데이트
-    setMyAllData(data && data.length > 0 ? data : null); // 데이터가 없으면 null로 설정
-  } else {
-    setMyAllData(null); // fetchedUser가 없으면 null로 설정
+  if (error) {
+    console.error("Error fetching data:", error);
+    if (setMyAllData) setMyAllData(null);
+    if (setMyAllAvgData) setMyAllAvgData(0);
+    return;
+  }
+
+  // 정렬 추가: year > month 순서
+  const sortedData =
+    data && Array.isArray(data)
+      ? data.sort((a, b) => {
+          if (a.year !== b.year) {
+            return a.year - b.year; // 연도 기준 오름차순
+          }
+          return a.month - b.month; // 연도가 같으면 월 기준 오름차순
+        })
+      : null;
+
+  // 전체 데이터 업데이트
+  if (setMyAllData) {
+    setMyAllData(sortedData && sortedData.length > 0 ? sortedData : null);
+  }
+
+  // 평균값 계산 및 업데이트
+  if (setMyAllAvgData && sortedData && sortedData.length > 0) {
+    const totalEmission = sortedData.reduce(
+      (sum, record) => sum + (record.carbon_emissions || 0),
+      0
+    );
+    const avgEmission = totalEmission / sortedData.length;
+    setMyAllAvgData(avgEmission);
+  } else if (setMyAllAvgData) {
+    setMyAllAvgData(0);
   }
 };
 
-// 내 전체의 carbon_emissions 평균값
-export const loadMyAvgData = async (
-  setMyAllAvgData: React.Dispatch<React.SetStateAction<number>>
-) => {
-  setMyAllAvgData(0); // 기본값을 0으로 설정하여 상태를 초기화
-
-  const fetchedUser = await getUser();
-  if (fetchedUser) {
-    const { data, error } = await browserClient
-      .from("carbon_records")
-      .select("carbon_emissions")
-      .eq("user_id", fetchedUser.id);
-
-    if (error) {
-      console.error("데이터를 가지고 오지 못했습니다:", error);
-      setMyAllAvgData(0); // 오류 발생 시 0으로 설정
-      return;
-    }
-
-    if (data && Array.isArray(data) && data.length > 0) {
-      const totalEmission = data.reduce(
-        (sum, record) => sum + (record.carbon_emissions || 0),
-        0
-      );
-      const avgEmission = totalEmission / data.length;
-      setMyAllAvgData(avgEmission); // 평균값을 설정
-    } else {
-      setMyAllAvgData(0); // 데이터가 없으면 0으로 설정
-    }
-  } else {
-    setMyAllAvgData(0); // fetchedUser가 없으면 0으로 설정
-  }
-};
-
-// 이번달 기준 내 최신 data
+// 월별 내 data 패칭
 export const loadUserAndFetchData = async (
-  // setUser: SetUserType,
   thisYear: number | null,
   thisMonth: number | null,
   setCurrentData: React.Dispatch<React.SetStateAction<MonthlyData | null>>
 ) => {
-  // user값(user_id 비교용)
   const fetchedUser = await getUser();
   if (fetchedUser) {
-    // setUser(fetchedUser.id);
-
     const { data, error } = await browserClient
       .from("carbon_records")
       .select("*")
       .eq("user_id", fetchedUser.id)
       .eq("year", thisYear)
-      .eq("month", thisMonth)
-      .gte(
-        "created_at",
-        new Date(
-          new Date().getFullYear(),
-          new Date().getMonth(),
-          1
-        ).toISOString()
-      )
-      .order("created_at", { ascending: false })
-      .limit(1);
+      .eq("month", thisMonth);
 
     if (error) {
       console.error("Error fetching data:", error);
@@ -195,7 +181,7 @@ export const loadTotalUsersData = async (
   }
 };
 
-// 유저 전체의 carbon_emissions 평균값
+// 전체 유저들의 carbon_emissions 평균값
 export const loadUsersAvgData = async (
   setUserAvgData: React.Dispatch<React.SetStateAction<number>>
 ) => {
@@ -558,27 +544,3 @@ export const loadTopUsersData = async (
     setTotalAvgData(null); // 데이터가 없을 경우 null로 설정
   }
 };
-
-// export const loadUserAvgData = async () => {
-//   const fetchedUser = await getUser();
-//   if (fetchedUser) {
-//     const { data, error } = await browserClient
-//       .from("carbon_records")
-//       .select("carbon_emissions");
-
-//     if (error) {
-//       console.error("Error fetching data:", error);
-//       setMyAllData(null); // 오류 발생 시 null로 설정
-//       return;
-//     }
-
-//     // 가져온 데이터를 상태에 업데이트
-//     if (data && Array.isArray(data) && data.length > 0) {
-//       setMyAllData(data); // 데이터가 있을 경우 업데이트
-//     } else {
-//       setMyAllData(null); // 데이터가 없으면 null로 설정
-//     }
-//   } else {
-//     setMyAllData(null); // fetchedUser가 없으면 null로 설정
-//   }
-// };

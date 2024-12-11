@@ -97,7 +97,7 @@ const Header = () => {
           </li>
 
           {/* 데스크톱 네비게이션 */}
-          <div className="hidden md:flex flex-row justify-center items-center space-x-4 ml-14 text-white text-sm">
+          <div className="hidden md:flex-row-center space-x-4 ml-14 text-white text-sm">
             {navItems.map((item) => (
               <li key={item.href}>
                 <Link
@@ -118,9 +118,9 @@ const Header = () => {
         </ul>
 
         {/* 데스크톱 유저 메뉴 */}
-        <ul className="hidden md:flex flex-row justify-center items-center space-x-4">
+        <ul className="hidden md:flex-row-center space-x-4">
           {!user.isAuthenticated ? (
-            <ul className="flex flex-row justify-center items-center gap-[32px] text-white">
+            <ul className="flex-row-center gap-[32px] text-white">
               <li>
                 <Link href="/login" className="hover:text-gray-300">
                   <button className="border-none rounded text-[14px] bg-[#00691E] w-[80px] h-[28px]">
@@ -130,8 +130,8 @@ const Header = () => {
               </li>
             </ul>
           ) : (
-            <ul className="flex flex-row justify-center items-center gap-[32px] text-white">
-              <li className="flex flex-row justify-center items-center gap-[9px]">
+            <ul className="flex-row-center gap-[32px] text-white">
+              <li className="flex-row-center gap-[9px]">
                 <figure className="w-[28px] h-[28px] rounded-full bg-[#00691E]">
                   <Image
                     src={levelInfo.profileSmall}

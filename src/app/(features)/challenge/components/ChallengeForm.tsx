@@ -1,11 +1,11 @@
 import Select from "./form/Select";
 import ImageUpload from "./form/ImageUpload";
-import BlackAutoWidthButton from "./ui/BlackAutoWidthButton";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { useChallengeForm } from "@/hooks/useChallengeForm";
 import { ChevronLeft } from "lucide-react";
 import { ChallengeData } from "@/types/challengesType";
 import { useModalStore } from "@/zustand/modalStore";
+import AutoWidthButton from "@/components/shared/AutoWidthButton";
 
 interface Props {
   initialData?: ChallengeData;
@@ -133,21 +133,24 @@ const ChallengeForm = ({ initialData }: Props) => {
           )}
         </div>
 
-        <BlackAutoWidthButton
-          className="px-3 py-2 md:w-1/3 md:px-4 md:py-3 bg-[#0D9C36] text-sm md:text-base mt-4 md:mt-6"
-          text={
-            mutation.isPending
-              ? isEditMode
-                ? "수정 중..."
-                : "제출 중..."
-              : isEditMode
-              ? "수정 완료"
-              : "인증 완료"
-          }
-          type="submit"
-          onClick={() => {}}
-          disabled={mutation.isPending}
-        />
+        <div className="w-full md:max-w-[392px] md:mx-auto">
+          <AutoWidthButton
+            className="mt-4 md:mt-[48px]"
+            text={
+              mutation.isPending
+                ? isEditMode
+                  ? "수정 중..."
+                  : "제출 중..."
+                : isEditMode
+                ? "수정 완료"
+                : "인증 완료"
+            }
+            type="submit"
+            onClick={() => {}}
+            disabled={mutation.isPending}
+            bgColor=""
+          />
+        </div>
       </form>
     </div>
   );

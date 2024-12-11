@@ -13,7 +13,7 @@ const LoginPage = () => {
         backgroundPosition: "-245px 90px"
       }}
     >
-      <div className="w-full mx-auto flex flex-col items-center justify-center">
+      <div className="w-full mx-auto flex-col-center">
         <div className="w-[150px] md:w-[180px] mt-[130px] md:mt-[240px] mb-[40px]">
           <Image
             src={"/images/logo.png"}
@@ -38,7 +38,7 @@ const LoginPage = () => {
           <div className="flex-1 h-px bg-gray-300"></div>
         </div>
 
-        <div className="flex flex-col justify-center items-center w-full gap-[12px] mb-[32px]">
+        <div className="flex-col-center w-full gap-[12px] mb-[32px]">
           <NaverLoginButton />
           <KaKaoLoginButton />
           <GoogleLoginButton />

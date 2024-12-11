@@ -1,13 +1,13 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useChallengeStore } from "@/zustand/challengeStore";
-import BlackAutoWidthButton from "./ui/BlackAutoWidthButton";
 import { CHALLENGES } from "@/utlis/challenge/challenges";
 import { Check } from "lucide-react";
 import Image from "next/image";
 import { useChallengeDashboard } from "@/hooks/useChallengeDashboard";
 import { userStore } from "@/zustand/userStore";
 import ChallengeSelectionSkeleton from "./ui/ChallengeSelectionSkeleton";
+import AutoWidthButton from "@/components/shared/AutoWidthButton";
 
 export const ChallengeSelection = () => {
   const { handleSubmit } = useForm();
@@ -88,12 +88,14 @@ export const ChallengeSelection = () => {
           </div>
         ))}
       </div>
-      <BlackAutoWidthButton
-        className="mt-[20px] md:mt-[40px] px-4 py-3 bg-[#0D9C36]"
-        text="챌린지 인증하기"
-        type="submit"
-        onClick={() => {}}
-      />
+      <div className="w-full md:max-w-[392px] md:mx-auto">
+        <AutoWidthButton
+          className="mt-[20px] md:mt-[40px]"
+          text="챌린지 인증하기"
+          type="submit"
+          onClick={() => {}}
+        />
+      </div>
     </form>
   );
 };

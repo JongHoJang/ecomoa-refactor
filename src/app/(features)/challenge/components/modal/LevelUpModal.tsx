@@ -47,7 +47,7 @@ const LevelUpModal = ({
         />
       </figure>
 
-      <div className="flex flex-col justify-center items-center md:gap-[10px] my-[80px] md:my-[100px]">
+      <div className="flex-col-center md:gap-[10px] my-[80px] md:my-[100px]">
         <h2 className="text-lg md:text-[24px] font-semibold text-center">
           {minPoints}P 달성 축하합니다!
         </h2>

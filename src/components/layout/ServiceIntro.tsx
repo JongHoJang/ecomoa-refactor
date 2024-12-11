@@ -11,6 +11,8 @@ import lottieJson2 from "../../../public/service/Graphic2.json";
 import lottieJson4 from "../../../public/service/Graphic4.json";
 import lottieJson5 from "../../../public/service/Graphic5.json";
 import lottieJson10 from "../../../public/service/Graphic10.json";
+import ServiceChallengeCard from "../ui/ServiceChallengeCard";
+import { ServiceCard } from "@/utlis/home/service";
 
 const ServiceIntro = () => {
   const lastSectionRef = useRef(null); // 마지막 섹션을 위한 ref
@@ -141,7 +143,7 @@ const ServiceIntro = () => {
 
       {/* section 2 */}
       <section className="h-auto bg-[#F2F9F2] flex items-center mt-[80px] md:mt-0 p-[80px_19px_80px_20px] md:pt-[160px] md:pb-[180px]">
-        <div className="w-full md:w-[1200px] h-auto md:max-h-[980px] grid grid-cols-1 md:grid-cols-2  mx-auto place-content-center">
+        <div className="w-full md:w-[1200px] h-auto md:max-h-[980px] grid grid-cols-1 md:grid-cols-2  mx-auto place-content-center ">
           {/* 첫 번째 내용 */}
           <div
             data-aos="fade-in"
@@ -159,62 +161,29 @@ const ServiceIntro = () => {
             </h1>
           </div>
           {/* 두 번째 내용 */}
-          <div className="flex justify-center items-center md:w-[608px] ">
+          <div className="flex justify-center items-center md:w-[608px] md:mb-[180px]">
             <div
               data-aos="fade-up"
               data-aos-offset="500"
               data-aos-easing="ease-in-out"
               data-aos-duration="1000"
-              className="w-full flex flex-wrap items-center justify-center gap-[15px] mt-[40px] md:mt-0 "
+              className="w-full flex flex-wrap items-center justify-center gap-[15px] mt-[40px] md:mt-0"
             >
-              <div className="w-[152px] md:w-[191px]">
-                <Image
-                  src={"/service/chal1.png"}
-                  alt="탄소 절감 챌린지"
-                  width={191}
-                  height={191}
+              {/* 
+                객체를 배열로 변환하기 위해서 Object를 사용했음
+                entries 메소드는 키와 밸류가 둘 다 필요 할 때 사용함
+
+                그러면 key나 values 메소드는 답이 나옵니다
+
+                만약에 배열을 객체로 돌리겠다 하면 fromEntries 이 메소드를 사용한다고 함
+              */}
+              {Object.entries(ServiceCard).map(([key, card]) => (
+                <ServiceChallengeCard
+                  key={key}
+                  imageSrc={card.imageSrc}
+                  titleLines={card.titleLines}
                 />
-              </div>
-              <div className="w-[152px] md:w-[191px]">
-                <Image
-                  src={"/service/chal2.png"}
-                  alt="탄소 절감 챌린지"
-                  width={191}
-                  height={191}
-                />
-              </div>
-              <div className="w-[152px] md:w-[191px]">
-                <Image
-                  src={"/service/chal3.png"}
-                  alt="탄소 절감 챌린지"
-                  width={191}
-                  height={191}
-                />
-              </div>
-              <div className="w-[152px] md:w-[191px]">
-                <Image
-                  src={"/service/chal4.png"}
-                  alt="탄소 절감 챌린지"
-                  width={191}
-                  height={191}
-                />
-              </div>
-              <div className="w-[152px] md:w-[191px]">
-                <Image
-                  src={"/service/chal5.png"}
-                  alt="탄소 절감 챌린지"
-                  width={192}
-                  height={192}
-                />
-              </div>
-              <div className="w-[152px] md:w-[192px]">
-                <Image
-                  src={"/service/chal6.png"}
-                  alt="탄소 절감 챌린지"
-                  width={192}
-                  height={192}
-                />
-              </div>
+              ))}
             </div>
           </div>
           {/* 세 번째 내용 */}
@@ -285,6 +254,13 @@ const ServiceIntro = () => {
             data-aos-duration="1500"
             className="w-full flex items-center justify-center flex-wrap md:flex-nowrap gap-[16px] md:gap-[32px] mt-[40px] md:mt-[132px]"
           >
+            {/* {Object.entries(ServiceLevels).map(([key, card], index) => (
+              <ServiceCharacterCard
+                key={card.level}
+                card={card}
+                className={index > 1 ? "mt-[32px] md:mt-0" : ""}
+              />
+            ))} */}
             {/* 씨앗모아 */}
             <div className="w-[151px] md:w-full h-[153px] md:h-auto flex flex-col items-center justify-center">
               <p className="mb-[12px] md:mb-[23px] text-[#000301] text-[11px] md:text-[20px] font-[700] leading-[16px] md:leading-[38px]">

@@ -1,13 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import HeaderTitle from "../layout/HeaderTitle";
 
 const Main = () => {
   return (
     <div className="bg-[#F2F9F2] min-h-[1080px]">
       <div className="w-full min-w-[360px] max-w-[1200px] mx-auto px-[20px] md:px-0 pb-[80px]">
         <div className="pt-[36px] md:pt-[76px] mb-[58px]  md:mb-[100px]">
-          <div className="flex flex-col w-full md:w-full leading-[1] md:leading-[80%] gap-[20px] md:gap-[40px]">
+          {/* <div className="flex flex-col w-full md:w-full leading-[1] md:leading-[80%] gap-[20px] md:gap-[40px]">
             <div className="flex flex-col gap-2 md:gap-[40px]">
               <div className="text-black text-[24px] md:text-[40px] font-bold">
                 이번 달 탄소 배출량을 계산해보고,
@@ -20,7 +21,15 @@ const Main = () => {
               매월 발생하는 이산화탄소 발생량을 계산해 평소 나의 에너지 사용량을
               비교 & 분석할 수 있어요
             </div>
-          </div>
+          </div> */}
+          <HeaderTitle
+            title="이번 달 탄소 배출량을 계산해보고,"
+            subTitle="탄소 절감에 함께 노력해봐요"
+            description="매월 발생하는 이산화탄소 발생량을 계산해 평소 나의 에너지 사용량을
+              비교 & 분석할 수 있어요"
+            titleSize="text-[24px] md:text-[40px]"
+            descriptionSize="text-[16px] md:text-[20px]"
+          />
         </div>
 
         <div className="flex flex-col gap-[20px]">

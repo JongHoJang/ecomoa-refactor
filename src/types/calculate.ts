@@ -12,16 +12,16 @@ export interface FormData {
 
 // InputFieldProps type 정리
 export interface InputFieldProps {
-  id: keyof FormData;
+  id: keyof CarbonFormData; // 'electricity' | 'gas' | 'water' | ...
   label: string;
-  register: UseFormRegister<FormData>;
-  errors: FieldErrors<FormData>;
-  requiredMessage?: string;
-  placeholder?: string;
+  register: UseFormRegister<CarbonFormData>;
+  errors: FieldErrors<CarbonFormData>;
+  requiredMessage: string;
+  placeholder: string;
   unit: string;
+  setValue: UseFormSetValue<CarbonFormData>;
   fuelType?: string;
-  setFuelType?: React.Dispatch<React.SetStateAction<string>>;
-  setValue?: UseFormSetValue<FormData>;
+  setFuelType?: (type: string) => void;
 }
 
 // 이번달 내 사용량
@@ -92,7 +92,19 @@ export interface ThisMonthChartProps {
   lastTotalAvgData: MonthlyData | null;
 }
 
-export interface ThisMonthResultChartProps {
-  currentData: MonthlyData | null;
-  totalAvgData: MonthlyData | null;
+export interface CarbonFormData {
+  electricity: number;
+  water: number;
+  gas: number;
+  car: number;
+  waste: number;
+}
+
+export interface CarbonFormDataFuelType {
+  electricity: number;
+  water: number;
+  gas: number;
+  car: number;
+  waste: number;
+  fuelType: "휘발유" | "경유" | "LPG"; // 제한된 문자열 값
 }
