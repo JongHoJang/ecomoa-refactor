@@ -57,12 +57,12 @@ const HistoryCompareCard: React.FC<HistoryCompareCardProps> = ({
   } else {
     comment = "데이터에 오류가 있습니다";
   }
-  console.log(
-    "thisMonthMyAvg, =>",
-    thisMonthMyAvg,
-    "LastMonthMyAvg, =>",
-    LastMonthMyAvg
-  );
+  // console.log(
+  //   "thisMonthMyAvg, =>",
+  //   thisMonthMyAvg,
+  //   "LastMonthMyAvg, =>",
+  //   LastMonthMyAvg
+  // );
 
   return (
     <>
@@ -91,7 +91,7 @@ const HistoryCompareCard: React.FC<HistoryCompareCardProps> = ({
                         {(
                           (thisMonthMyAvg / LastMonthMyAvg) * 100 -
                           100
-                        ).toFixed(2)}
+                        ).toFixed(0)}
                         %
                       </div>
                       <div className="ml-1">증가했어요!</div>
@@ -109,7 +109,7 @@ const HistoryCompareCard: React.FC<HistoryCompareCardProps> = ({
                         {(
                           (LastMonthMyAvg / thisMonthMyAvg) * 100 -
                           100
-                        ).toFixed(2)}
+                        ).toFixed(0)}
                         %
                       </div>
                       <div className="ml-1">감소했어요!</div>
