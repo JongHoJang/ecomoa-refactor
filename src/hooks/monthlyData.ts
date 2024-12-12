@@ -3,70 +3,70 @@ import { MonthlyData } from "@/types/calculate";
 import browserClient from "@/utlis/supabase/browserClient";
 
 // 내 데이터 패칭
-export const loadMyData = async ({
-  setMyAllData,
-  setMyAllAvgData,
-  selectedYear
-}: {
-  setMyAllData?: React.Dispatch<React.SetStateAction<MonthlyData[] | null>>;
-  setMyAllAvgData?: React.Dispatch<React.SetStateAction<number>>;
-  selectedYear: number | null;
-}) => {
-  const fetchedUser = await getUser();
-  if (!fetchedUser) {
-    // 유저 정보가 없으면 상태를 초기화
-    if (setMyAllData) setMyAllData(null);
-    if (setMyAllAvgData) setMyAllAvgData(0);
-    return;
-  }
+// export const loadMyData = async ({
+//   setMyAllData,
+//   setMyAllAvgData,
+//   selectedYear
+// }: {
+//   setMyAllData?: React.Dispatch<React.SetStateAction<MonthlyData[] | null>>;
+//   setMyAllAvgData?: React.Dispatch<React.SetStateAction<number>>;
+//   selectedYear: number | null;
+// }) => {
+//   const fetchedUser = await getUser();
+//   if (!fetchedUser) {
+//     // 유저 정보가 없으면 상태를 초기화
+//     if (setMyAllData) setMyAllData(null);
+//     if (setMyAllAvgData) setMyAllAvgData(0);
+//     return;
+//   }
 
-  let query = browserClient
-    .from("carbon_records")
-    .select("*, created_at, carbon_emissions")
-    .eq("user_id", fetchedUser.id);
+//   let query = browserClient
+//     .from("carbon_records")
+//     .select("*, created_at, carbon_emissions")
+//     .eq("user_id", fetchedUser.id);
 
-  // selectedYear가 null이 아닐 때만 연도 필터 추가
-  if (selectedYear !== null) {
-    query = query.eq("year", selectedYear);
-  }
+//   // selectedYear가 null이 아닐 때만 연도 필터 추가
+//   if (selectedYear !== null) {
+//     query = query.eq("year", selectedYear);
+//   }
 
-  const { data, error } = await query;
+//   const { data, error } = await query;
 
-  if (error) {
-    console.error("Error fetching data:", error);
-    if (setMyAllData) setMyAllData(null);
-    if (setMyAllAvgData) setMyAllAvgData(0);
-    return;
-  }
+//   if (error) {
+//     console.error("Error fetching data:", error);
+//     if (setMyAllData) setMyAllData(null);
+//     if (setMyAllAvgData) setMyAllAvgData(0);
+//     return;
+//   }
 
-  // 정렬 추가: year > month 순서
-  const sortedData =
-    data && Array.isArray(data)
-      ? data.sort((a, b) => {
-          if (a.year !== b.year) {
-            return a.year - b.year; // 연도 기준 오름차순
-          }
-          return a.month - b.month; // 연도가 같으면 월 기준 오름차순
-        })
-      : null;
+//   // 정렬 추가: year > month 순서
+//   const sortedData =
+//     data && Array.isArray(data)
+//       ? data.sort((a, b) => {
+//           if (a.year !== b.year) {
+//             return a.year - b.year; // 연도 기준 오름차순
+//           }
+//           return a.month - b.month; // 연도가 같으면 월 기준 오름차순
+//         })
+//       : null;
 
-  // 전체 데이터 업데이트
-  if (setMyAllData) {
-    setMyAllData(sortedData && sortedData.length > 0 ? sortedData : null);
-  }
+//   // 전체 데이터 업데이트
+//   if (setMyAllData) {
+//     setMyAllData(sortedData && sortedData.length > 0 ? sortedData : null);
+//   }
 
-  // 평균값 계산 및 업데이트
-  if (setMyAllAvgData && sortedData && sortedData.length > 0) {
-    const totalEmission = sortedData.reduce(
-      (sum, record) => sum + (record.carbon_emissions || 0),
-      0
-    );
-    const avgEmission = totalEmission / sortedData.length;
-    setMyAllAvgData(avgEmission);
-  } else if (setMyAllAvgData) {
-    setMyAllAvgData(0);
-  }
-};
+//   // 평균값 계산 및 업데이트
+//   if (setMyAllAvgData && sortedData && sortedData.length > 0) {
+//     const totalEmission = sortedData.reduce(
+//       (sum, record) => sum + (record.carbon_emissions || 0),
+//       0
+//     );
+//     const avgEmission = totalEmission / sortedData.length;
+//     setMyAllAvgData(avgEmission);
+//   } else if (setMyAllAvgData) {
+//     setMyAllAvgData(0);
+//   }
+// };
 
 // 월별 내 data 패칭
 export const loadUserAndFetchData = async (

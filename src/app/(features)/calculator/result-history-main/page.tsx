@@ -1,6 +1,5 @@
 "use client";
 import {
-  loadMyData,
   loadRecentFiveMonthsEmissions,
   loadTopUsersData,
   loadUsersAvgData,
@@ -22,14 +21,15 @@ import EmissionLeftSide from "@/components/calculator/EmissionHeader";
 import EmissionProgressBar from "@/components/calculator/EmissionProgressBar";
 import TreeCalculationCard from "@/components/calculator/TreeCalculationCard";
 import CompareChartLabel from "@/components/calculator/CompareChartLabel";
+import { useCarbonRecords } from "@/hooks/useCarbonRecords";
 
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
 
 const ResultPageMain = () => {
   const [userAvgData, setUserAvgData] = useState<number>(0);
-  const [myAllData, setMyAllData] = useState<MonthlyData[] | null>(null);
-  const [myAllAvgData, setMyAllAvgData] = useState<number>(0);
+  // const [myAllData, setMyAllData] = useState<MonthlyData[] | null>(null);
+  // const [myAllAvgData, setMyAllAvgData] = useState<number>(0);
   const [userTopData, setUserTopData] = useState<TopData | null>(null);
   const [userAllData, setUserAllData] = useState<MonthlyData[] | null>(null);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
@@ -40,11 +40,20 @@ const ResultPageMain = () => {
   // 유저 이미지 가지고 오기
   const levelInfo = calculateLevelInfo(userInfo?.user_point ?? 0);
 
+  // loadMyData 대신 useCarbonRecords 사용
+  const {
+    myAllData,
+    myAllAvgData,
+    isLoading: isMyDataLoading
+  } = useCarbonRecords({
+    selectedYear: null
+  });
+
   useEffect(() => {
     const getUserFetch = async () => {
       if (user?.id) {
         const res = await getUserInfo(user.id);
-        setUserInfo(res); // 이곳에서 반환되는 데이터가 `UserInfo` 타입이어야 합니다.
+        setUserInfo(res);
       }
     };
 
@@ -52,11 +61,6 @@ const ResultPageMain = () => {
       try {
         await Promise.all([
           loadUsersAvgData(setUserAvgData), // 유저 토탈 데이터
-          loadMyData({
-            setMyAllData,
-            setMyAllAvgData,
-            selectedYear: null
-          }),
           loadTopUsersData(setUserTopData), // 유저 최고 데이터
           loadRecentFiveMonthsEmissions(currentYear, currentMonth, 2).then(
             (data) => {
@@ -66,7 +70,6 @@ const ResultPageMain = () => {
           getUserFetch()
         ]);
 
-        // 모든 데이터가 성공적으로 패칭되면 로딩 상태를 false로 변경
         setIsLoading(false);
       } catch (error) {
         console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
@@ -77,7 +80,7 @@ const ResultPageMain = () => {
     fetchData();
   }, [user]);
 
-  if (isLoading) {
+  if (isLoading || isMyDataLoading) {
     return (
       <Loading
         message="탄소 배출량 히스토리 로딩 중"
