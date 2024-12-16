@@ -1,55 +1,31 @@
-// src/hooks/useCarbonRecords.ts
 import { getUser } from "@/api/auth-actions";
 import { fetchCarbonRecords } from "@/api/fetchCarbonRecordsApi";
-import { MonthlyData } from "@/types/calculate";
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 type UseCarbonRecordsProps = {
   selectedYear: number | null;
 };
 
 export const useCarbonRecords = ({ selectedYear }: UseCarbonRecordsProps) => {
-  const [myAllData, setMyAllData] = useState<MonthlyData[] | null>(null);
-  const [myAllAvgData, setMyAllAvgData] = useState<number>(0);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  return useQuery({
+    queryKey: ["carbonRecords", selectedYear],
+    queryFn: async () => {
+      const user = await getUser();
+      if (!user) return { records: null, avgEmission: 0 };
 
-  useEffect(() => {
-    const loadData = async () => {
-      setIsLoading(true); // 데이터 로드 시작
-      try {
-        const user = await getUser();
-        if (!user) {
-          setMyAllData(null);
-          setMyAllAvgData(0);
-          setIsLoading(false); // 데이터 로드 완료
-          return;
-        }
+      const records = await fetchCarbonRecords(user.id, selectedYear);
+      if (!records || records.length === 0)
+        return { records: [], avgEmission: 0 };
 
-        const records = await fetchCarbonRecords(user.id, selectedYear);
+      const totalEmission = records.reduce(
+        (sum, record) => sum + (record.carbon_emissions || 0),
+        0
+      );
+      const avgEmission = totalEmission / records.length;
 
-        setMyAllData(records);
-
-        if (records && records.length > 0) {
-          const totalEmission = records.reduce(
-            (sum, record) => sum + (record.carbon_emissions || 0),
-            0
-          );
-          const avgEmission = totalEmission / records.length;
-          setMyAllAvgData(avgEmission);
-        } else {
-          setMyAllAvgData(0);
-        }
-      } catch (error) {
-        console.error("Error loading carbon records:", error);
-        setMyAllData(null);
-        setMyAllAvgData(0);
-      } finally {
-        setIsLoading(false); // 데이터 로드 완료
-      }
-    };
-
-    loadData();
-  }, [selectedYear]);
-
-  return { myAllData, myAllAvgData, isLoading };
+      return { records, avgEmission };
+    }
+    // staleTime: 5 * 60 * 1000, // 데이터 갱신 주기
+    // cacheTime: 10 * 60 * 1000 // 캐시 유지 시간
+  });
 };

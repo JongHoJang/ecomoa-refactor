@@ -15,10 +15,11 @@ interface Props {
 const ResultList = ({ type }: Props) => {
   const [thisYear, setThisYear] = useState<number | null>(null);
 
-  // useCarbonRecords를 사용하여 데이터를 가져옴
-  const { myAllData, isLoading } = useCarbonRecords({
+  const { data, isLoading } = useCarbonRecords({
     selectedYear: thisYear
   });
+
+  const myAllData = data?.records || [];
 
   const handleYearChange = (year: number | null) => {
     setThisYear(year); // 선택한 연도를 업데이트

@@ -32,13 +32,14 @@ const ResultPageMain = () => {
   const levelInfo = calculateLevelInfo(userInfo?.user_point ?? 0);
 
   // 내 데이터값 가지고 오기
-  const {
-    myAllData,
-    myAllAvgData,
-    isLoading: isMyDataLoading
-  } = useCarbonRecords({
+  const { data: carbonData, isLoading: isMyDataLoading } = useCarbonRecords({
     selectedYear: null
   });
+
+  const { records: myAllData, avgEmission: myAllAvgData } = carbonData ?? {
+    records: [],
+    avgEmission: 0
+  };
 
   // 유저 평균 데이터값 가지고 오기
   const {
