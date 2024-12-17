@@ -1,3 +1,5 @@
+"use client";
+
 import { InputFieldProps } from "@/types/calculate";
 
 import FuelTypeSelector from "./FuelTypeSelector";

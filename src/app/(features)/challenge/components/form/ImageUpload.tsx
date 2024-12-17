@@ -1,3 +1,4 @@
+"use client";
 import { ChallengeFormInputs } from "@/types/challengesType";
 import { Plus, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
@@ -36,7 +37,8 @@ const ImageUpload = ({
 
   const checkScrollable = () => {
     if (scrollContainerRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+      const { scrollLeft, scrollWidth, clientWidth } =
+        scrollContainerRef.current;
       setShowLeftButton(scrollLeft > 0);
       setShowRightButton(scrollWidth > clientWidth);
     }
@@ -53,7 +55,8 @@ const ImageUpload = ({
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+      const { scrollLeft, scrollWidth, clientWidth } =
+        scrollContainerRef.current;
       setShowLeftButton(scrollLeft > 0);
       setShowRightButton(scrollLeft < scrollWidth - clientWidth - 10);
     }

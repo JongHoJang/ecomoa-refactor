@@ -1,3 +1,4 @@
+"use client";
 import { communityApi } from "@/api/communityApi";
 import { getUserInfo } from "@/api/user-action";
 import { UserInfo } from "@/types/userInfoType";

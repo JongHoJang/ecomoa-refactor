@@ -1,3 +1,4 @@
+"use client";
 import { useChallengeList, useUserChallengeList } from "@/hooks/useChallenge";
 import { calculateLevelInfo } from "@/utlis/challenge/levelCalculator";
 import { useEffect, useState } from "react";
