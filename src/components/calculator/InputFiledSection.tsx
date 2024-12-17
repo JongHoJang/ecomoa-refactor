@@ -1,3 +1,4 @@
+"use client";
 import { useForm, SubmitHandler } from "react-hook-form";
 import InputField from "@/components/calculator/InputField";
 import { CarbonFormData } from "@/types/calculate";

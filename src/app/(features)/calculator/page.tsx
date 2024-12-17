@@ -1,12 +1,13 @@
-import Main from "@/components/calculator/Main";
 import React from "react";
+import Main from "@/components/calculator/Main";
+import CalculatorLayout from "./layout";
 
-const page = () => {
+const Page = () => {
   return (
-    <div>
+    <CalculatorLayout>
       <Main />
-    </div>
+    </CalculatorLayout>
   );
 };
 
-export default page;
+export default Page;
