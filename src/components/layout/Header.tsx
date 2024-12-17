@@ -70,10 +70,13 @@ const Header = () => {
   }, [user]);
 
   useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
+    if (typeof window !== "undefined") {
+      // 클라이언트 환경에서만 실행되도록
+      if (isMenuOpen) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "unset";
+      }
     }
   }, [isMenuOpen]);
 
