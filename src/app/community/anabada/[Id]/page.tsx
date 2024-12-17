@@ -108,19 +108,21 @@ const Page = ({ params }: { params: { Id: string } }) => {
   };
 
   const handleDeletePost = async (post: Post) => {
-    const confirmed = window.confirm("정말 삭제 하시겠습니까?");
-    console.log("컨펌", confirmed);
-    if (confirmed) {
-      try {
-        const { error } = await communityApi.delete(post);
-        if (error) {
-          throw error;
+    if (typeof window !== "undefined") {
+      const confirmed = window.confirm("정말 삭제 하시겠습니까?");
+      console.log("컨펌", confirmed);
+      if (confirmed) {
+        try {
+          const { error } = await communityApi.delete(post);
+          if (error) {
+            throw error;
+          }
+          alert("게시글이 삭제 되었습니다.");
+          router.push("/community/anabada");
+        } catch (error) {
+          console.error("게시글 삭제 실패:", error);
+          alert("게시글 삭제에 실패했습니다. 다시 시도해주세요.");
         }
-        alert("게시글이 삭제 되었습니다.");
-        router.push("/community/anabada");
-      } catch (error) {
-        console.error("게시글 삭제 실패:", error);
-        alert("게시글 삭제에 실패했습니다. 다시 시도해주세요.");
       }
     }
   };
