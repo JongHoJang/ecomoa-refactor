@@ -1,15 +1,14 @@
 // calculator/layout.tsx
-import dynamic from "next/dynamic";
+import React from "react";
 
-// dynamic으로 CalculatorLayout을 로드하여 SSR 방지
-const CalculatorLayout = dynamic(() => import("./CalculatorLayout"), {
-  ssr: false
-});
-
-export default function CalculatorLayoutWrapper({
+export default function CalculatorLayout({
   children
 }: {
   children: React.ReactNode;
 }) {
-  return <CalculatorLayout>{children}</CalculatorLayout>;
+  return (
+    <div>
+      <div>{children}</div>
+    </div>
+  );
 }
