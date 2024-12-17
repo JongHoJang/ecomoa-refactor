@@ -27,9 +27,11 @@ const StoreCard = ({
   const { user } = userStore();
 
   const scrollToTop = () => {
-    const scrollableDiv = document.querySelector(".overflow-y-auto");
-    if (scrollableDiv) {
-      scrollableDiv.scrollTo(0, 0);
+    if (typeof window !== "undefined") {
+      const scrollableDiv = document.querySelector(".overflow-y-auto");
+      if (scrollableDiv) {
+        scrollableDiv.scrollTo(0, 0);
+      }
     }
   };
 

@@ -114,15 +114,17 @@ const PostDetailPage = ({ params }: Props) => {
 
   // 댓글 삭제 처리
   const handleDeleteComment = async (commentId: string) => {
-    const confirmed = window.confirm("정말 삭제 하시겠습니까?");
-    if (confirmed) {
-      const { error } = await communityApi.deleteComment(commentId);
-      if (error) {
-        alert("댓글 삭제에 실패했습니다.");
-      } else {
-        setComments((prev) =>
-          prev.filter((comment) => comment.comment_id !== commentId)
-        ); // 댓글 삭제 후 상태 업데이트
+    if (typeof window !== "undefined") {
+      const confirmed = window.confirm("정말 삭제 하시겠습니까?");
+      if (confirmed) {
+        const { error } = await communityApi.deleteComment(commentId);
+        if (error) {
+          alert("댓글 삭제에 실패했습니다.");
+        } else {
+          setComments((prev) =>
+            prev.filter((comment) => comment.comment_id !== commentId)
+          ); // 댓글 삭제 후 상태 업데이트
+        }
       }
     }
   };
@@ -198,18 +200,21 @@ const PostDetailPage = ({ params }: Props) => {
   };
 
   const handleDeletePost = async (post: Post) => {
-    const confirmed = window.confirm("정말 삭제 하시겠습니까?");
-    if (confirmed) {
-      try {
-        const { error } = await communityApi.delete(post);
-        if (error) {
-          throw error;
+    if (typeof window !== "undefined") {
+      // 클라이언트에서만 실행되도록 확인
+      const confirmed = window.confirm("정말 삭제 하시겠습니까?");
+      if (confirmed) {
+        try {
+          const { error } = await communityApi.delete(post);
+          if (error) {
+            throw error;
+          }
+          alert("게시글이 삭제되었습니다.");
+          router.push("/community/free");
+        } catch (error) {
+          console.error("게시글 삭제 실패:", error);
+          alert("게시글 삭제에 실패했습니다. 다시 시도해주세요.");
         }
-        alert("게시글이 삭제되었습니다.");
-        router.push("/community/free");
-      } catch (error) {
-        console.error("게시글 삭제 실패:", error);
-        alert("게시글 삭제에 실패했습니다. 다시 시도해주세요.");
       }
     }
   };

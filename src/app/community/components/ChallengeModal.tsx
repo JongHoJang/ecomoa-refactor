@@ -16,9 +16,14 @@ const ChallengeModal = ({
   const [updatedChallenge, setUpdatedChallenge] = useState(challenge);
   const [newImage, setNewImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isClient, setIsClient] = useState(false); // 클라이언트 여부 체크
+
+  // 클라이언트에서만 실행하도록 useEffect 사용
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // 게시글 내용이 변경될 때 상태 업데이트
-
   useEffect(() => {
     setUpdatedChallenge(challenge);
     // 기존 이미지 미리보기 설정
@@ -56,9 +61,16 @@ const ChallengeModal = ({
     }
   };
 
+  // 클라이언트에서만 실행하도록
+  const handleFileInputClick = () => {
+    if (isClient) {
+      document.getElementById("imageInput")?.click();
+    }
+  };
+
   return (
     <>
-      <form className="w-{965px] h-">
+      <form className="w-[965px] h-[500px]">
         <button
           onClick={onClose}
           className="absolute top-2 right-2 text-xl font-bold border-none"
@@ -89,7 +101,7 @@ const ChallengeModal = ({
             <button
               type="button"
               className="p-2 rounded-full"
-              onClick={() => document.getElementById("imageInput")?.click()}
+              onClick={handleFileInputClick} // 클라이언트에서만 실행되도록
             >
               교체하기
             </button>
@@ -102,7 +114,7 @@ const ChallengeModal = ({
             />
           </div>
         </div>
-        <button type="button" onClick={() => handleSave()}>
+        <button type="button" onClick={handleSave}>
           수정하기
         </button>
       </form>
