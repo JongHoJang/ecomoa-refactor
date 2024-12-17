@@ -1,41 +1,35 @@
-import {
-  loadMyRecentFiveMonthsEmissions,
-  loadRecentFiveMonthsEmissions
-} from "@/hooks/monthlyData";
-import { MonthlyData } from "@/types/calculate";
-import React, { useEffect, useState } from "react";
+import Loading from "./Loading";
 import MonthlyChartMain from "./MonthlyChartMain";
+import { useRecentFiveMonthsEmissions } from "@/hooks/useRecentFiveMonthsEmissions";
 
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
 
 const CompareMonthlyEmissions = () => {
-  const [emissionsData, setEmissionsData] = useState<MonthlyData[] | null>(
-    null
-  );
-  const [currentData, setCurrentData] = useState<MonthlyData[] | null>(null);
+  const {
+    data: emissionsData,
+    isLoading: isEmissionsLoading,
+    error: emissionsError
+  } = useRecentFiveMonthsEmissions(currentYear, currentMonth, 5);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await loadRecentFiveMonthsEmissions(
-        currentYear,
-        currentMonth,
-        5
-      );
-      setEmissionsData(data);
-    };
+  const {
+    data: currentData,
+    isLoading: isCurrentLoading,
+    error: currentDataError
+  } = useRecentFiveMonthsEmissions(currentYear, currentMonth, 5);
 
-    const fetchMyData = async () => {
-      const data = await loadMyRecentFiveMonthsEmissions(
-        currentYear,
-        currentMonth,
-        5
-      );
-      setCurrentData(data);
-    };
-    fetchData();
-    fetchMyData();
-  }, []);
+  if (isEmissionsLoading || isCurrentLoading) {
+    return (
+      <Loading
+        message="탄소 배출량 히스토리 로딩 중"
+        subMessage="잠시만 기다려 주세요~!"
+      />
+    );
+  }
+
+  if (currentDataError || emissionsError) {
+    return <div>에러가 발생했습니다.</div>;
+  }
 
   return (
     <>

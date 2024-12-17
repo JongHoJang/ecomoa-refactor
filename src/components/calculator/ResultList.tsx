@@ -1,45 +1,28 @@
 "use client";
 
-// import { loadMyAllData } from "@/hooks/monthlyData";
-import { MonthlyData } from "@/types/calculate";
-// import Image from "next/image";
-// import Link from "next/link";
-import React, { useEffect, useState } from "react";
-// import { format } from "date-fns";
+import React, { useState } from "react";
 import YearPicker from "./YearPicker";
 import FormHeader from "../shared/FormHeader";
 import HeaderTitle from "../layout/HeaderTitle";
-import { loadMyData } from "@/hooks/monthlyData";
 import ResultItem from "./ResultItem";
 import StatusMessage from "./StatusMessage";
+import { useCarbonRecords } from "@/hooks/useCarbonRecords";
 
 interface Props {
   type: string;
 }
 
 const ResultList = ({ type }: Props) => {
-  const [myAllData, setMyAllData] = useState<MonthlyData[] | null>(null);
   const [thisYear, setThisYear] = useState<number | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      await loadMyData({
-        setMyAllData,
-        selectedYear: thisYear
-      });
-      setIsLoading(false);
-    };
-    fetchData();
-  }, [thisYear]);
+  const { data, isLoading } = useCarbonRecords({
+    selectedYear: thisYear
+  });
+
+  const myAllData = data?.records || [];
 
   const handleYearChange = (year: number | null) => {
-    setThisYear(year);
-    loadMyData({
-      setMyAllData,
-      selectedYear: year
-    });
+    setThisYear(year); // 선택한 연도를 업데이트
   };
 
   return (

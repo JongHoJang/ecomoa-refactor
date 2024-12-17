@@ -1,16 +1,5 @@
 "use client";
-import {
-  loadMyData,
-  loadRecentFiveMonthsEmissions,
-  loadTopUsersData,
-  loadUsersAvgData,
-  TopData
-} from "@/hooks/monthlyData";
-import { MonthlyData } from "@/types/calculate";
-import React, { useEffect, useState } from "react";
 import { userStore } from "@/zustand/userStore";
-import { UserInfo } from "@/types/userInfoType";
-import { getUserInfo } from "@/api/user-action";
 import { calculateLevelInfo } from "@/utlis/challenge/levelCalculator";
 import FormHeader from "@/components/shared/FormHeader";
 import Loading from "@/components/calculator/Loading";
@@ -22,62 +11,64 @@ import EmissionLeftSide from "@/components/calculator/EmissionHeader";
 import EmissionProgressBar from "@/components/calculator/EmissionProgressBar";
 import TreeCalculationCard from "@/components/calculator/TreeCalculationCard";
 import CompareChartLabel from "@/components/calculator/CompareChartLabel";
+import { useCarbonRecords } from "@/hooks/useCarbonRecords";
+import { useUsersAvgData } from "@/hooks/useUsersAvgData";
+import { useTopUsersData } from "@/hooks/useTopData";
+import { useUserFetch } from "@/hooks/useUserFetch";
+import { useRecentFiveMonthsEmissions } from "@/hooks/useRecentFiveMonthsEmissions";
 
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
 
 const ResultPageMain = () => {
-  const [userAvgData, setUserAvgData] = useState<number>(0);
-  const [myAllData, setMyAllData] = useState<MonthlyData[] | null>(null);
-  const [myAllAvgData, setMyAllAvgData] = useState<number>(0);
-  const [userTopData, setUserTopData] = useState<TopData | null>(null);
-  const [userAllData, setUserAllData] = useState<MonthlyData[] | null>(null);
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
+  // 유저정보 가지고 오기
   const { user } = userStore();
+
+  const { userInfo, isLoading: isUserInfoLoading } = useUserFetch(
+    user?.id ?? null
+  );
 
   // 유저 이미지 가지고 오기
   const levelInfo = calculateLevelInfo(userInfo?.user_point ?? 0);
 
-  useEffect(() => {
-    const getUserFetch = async () => {
-      if (user?.id) {
-        const res = await getUserInfo(user.id);
-        setUserInfo(res); // 이곳에서 반환되는 데이터가 `UserInfo` 타입이어야 합니다.
-      }
-    };
+  // 내 데이터값 가지고 오기
+  const { data: carbonData, isLoading: isMyDataLoading } = useCarbonRecords({
+    selectedYear: null
+  });
 
-    const fetchData = async () => {
-      try {
-        await Promise.all([
-          loadUsersAvgData(setUserAvgData), // 유저 토탈 데이터
-          loadMyData({
-            setMyAllData,
-            setMyAllAvgData,
-            selectedYear: null
-          }),
-          loadTopUsersData(setUserTopData), // 유저 최고 데이터
-          loadRecentFiveMonthsEmissions(currentYear, currentMonth, 2).then(
-            (data) => {
-              setUserAllData(data);
-            }
-          ),
-          getUserFetch()
-        ]);
+  const { records: myAllData, avgEmission: myAllAvgData } = carbonData ?? {
+    records: [],
+    avgEmission: 0
+  };
 
-        // 모든 데이터가 성공적으로 패칭되면 로딩 상태를 false로 변경
-        setIsLoading(false);
-      } catch (error) {
-        console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
-        setIsLoading(false);
-      }
-    };
+  // 유저 평균 데이터값 가지고 오기
+  const {
+    userAvgData,
+    isLoading: isAvgDataLoading,
+    error: userAvgDataError
+  } = useUsersAvgData();
 
-    fetchData();
-  }, [user]);
+  // 제일 높은 데이터값 가지고 오기
+  const {
+    topUser,
+    isLoading: isTopUserLoading,
+    error: topUserError
+  } = useTopUsersData();
 
-  if (isLoading) {
+  // 유저평균 최신달 2개 가지고 오기
+  const {
+    data: emissionsData,
+    isLoading: isEmissionsLoading,
+    error: emissionsError
+  } = useRecentFiveMonthsEmissions(currentYear, currentMonth, 2);
+
+  if (
+    isMyDataLoading ||
+    isAvgDataLoading ||
+    isTopUserLoading ||
+    isUserInfoLoading ||
+    isEmissionsLoading
+  ) {
     return (
       <Loading
         message="탄소 배출량 히스토리 로딩 중"
@@ -86,6 +77,9 @@ const ResultPageMain = () => {
     );
   }
 
+  if (userAvgDataError || topUserError || emissionsError) {
+    return <div>에러가 발생했습니다.</div>;
+  }
   return (
     <>
       <div className="bg-[#F2F9F2] min-h-full">
@@ -126,7 +120,7 @@ const ResultPageMain = () => {
                 {/* 프로그레스바 */}
                 <EmissionProgressBar
                   myAllAvgData={myAllAvgData}
-                  userTopData={userTopData}
+                  userTopData={topUser}
                   userAvgData={userAvgData}
                   levelInfo={levelInfo}
                   userInfo={userInfo}
@@ -161,7 +155,7 @@ const ResultPageMain = () => {
               <div>
                 <HistoryCompareCard
                   myAllData={myAllData}
-                  userAllData={userAllData}
+                  userAllData={emissionsData}
                 />
               </div>
             </div>
