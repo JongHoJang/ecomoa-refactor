@@ -1,6 +1,6 @@
 "use client";
-import { useCallback, useRef } from "react";
 
+import { useCallback, useRef, useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { toJpeg } from "html-to-image";
 import Image from "next/image";
@@ -12,6 +12,17 @@ import { useMyCarbonData, useUserCarbonData } from "@/hooks/useUserCarbonData";
 import Loading from "@/components/calculator/Loading";
 import EmissionUpAndDown from "@/components/calculator/EmissionUpAndDown";
 
+// 클라이언트에서만 실행되도록 하는 훅
+const useIsClient = () => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true); // 클라이언트에서만 true로 설정
+  }, []);
+
+  return isClient;
+};
+
 const currentMonth = new Date().getMonth() + 1;
 
 const ResultPage: React.FC = () => {
@@ -20,6 +31,10 @@ const ResultPage: React.FC = () => {
   const year = Number(params.year);
   const month = Number(params.month);
 
+  // 클라이언트에서만 렌더링되도록 설정
+  const isClient = useIsClient();
+
+  // 서버에서 데이터를 가져오는 훅 (클라이언트에서만 실행)
   const {
     data: currentData,
     isLoading: isCurrentDataLoading,
@@ -56,6 +71,11 @@ const ResultPage: React.FC = () => {
         console.error("Image saving failed:", error);
       });
   }, [year, month]);
+
+  // 클라이언트에서만 렌더링하도록 하여 SSR 방지
+  if (!isClient) {
+    return null; // 클라이언트에서만 렌더링되므로 SSR에서는 아무것도 렌더링하지 않음
+  }
 
   if (isLoading) {
     return <Loading />;
