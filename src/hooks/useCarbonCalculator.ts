@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { SubmitHandler } from "react-hook-form";
 import { CarbonFormData } from "@/types/calculate";

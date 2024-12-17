@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { UserInfo } from "@/types/userInfoType";
 import { getUserInfo } from "@/api/user-action";

@@ -76,11 +76,11 @@ export const useUsersAvgData = () => {
     isLoading,
     error
   } = useQuery({
-    queryKey: ["userAvgData"], // 쿼리 키
-    queryFn: fetchUserAvgData, // 데이터 가져오는 함수
-    staleTime: 1000 * 60 * 5, // 5분 동안 캐시된 데이터를 사용
-    // cacheTime: 1000 * 60 * 10, // 10분 후 캐시에서 삭제
-    refetchOnWindowFocus: false // 창 포커스를 다시 받을 때마다 refetch하지 않음
+    queryKey: ["userAvgData"],
+    queryFn: fetchUserAvgData,
+    staleTime: 1000 * 60 * 5,
+    // cacheTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false
   });
 
   return { userAvgData, isLoading, error };

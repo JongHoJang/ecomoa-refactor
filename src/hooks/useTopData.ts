@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import browserClient from "@/utlis/supabase/browserClient";
 
