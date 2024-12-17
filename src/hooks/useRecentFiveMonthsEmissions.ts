@@ -1,3 +1,5 @@
+"use client";
+
 import { MonthlyData } from "@/types/calculate";
 import browserClient from "@/utlis/supabase/browserClient";
 import { useState, useEffect } from "react";
