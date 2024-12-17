@@ -1,5 +1,4 @@
 import { useRecentMyFiveMonthsEmissions } from "@/hooks/useRecentMyFiveMonthsEmissions";
-import Loading from "./Loading";
 import MonthlyChartMain from "./MonthlyChartMain";
 import { useRecentFiveMonthsEmissions } from "@/hooks/useRecentFiveMonthsEmissions";
 
@@ -7,26 +6,11 @@ const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
 
 const CompareMonthlyEmissions = () => {
-  const {
-    data: emissionsData,
-    isLoading: isEmissionsLoading,
-    error: emissionsError
-  } = useRecentFiveMonthsEmissions(currentYear, currentMonth, 5);
+  const { data: emissionsData, error: emissionsError } =
+    useRecentFiveMonthsEmissions(currentYear, currentMonth, 5);
 
-  const {
-    data: currentData,
-    isLoading: isCurrentLoading,
-    error: currentDataError
-  } = useRecentMyFiveMonthsEmissions(currentYear, currentMonth, 5);
-
-  if (isEmissionsLoading || isCurrentLoading) {
-    return (
-      <Loading
-        message="탄소 배출량 히스토리 로딩 중"
-        subMessage="잠시만 기다려 주세요~!"
-      />
-    );
-  }
+  const { data: currentData, error: currentDataError } =
+    useRecentMyFiveMonthsEmissions(currentYear, currentMonth, 5);
 
   if (currentDataError || emissionsError) {
     return <div>에러가 발생했습니다.</div>;
