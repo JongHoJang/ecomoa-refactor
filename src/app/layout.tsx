@@ -2,15 +2,10 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/layout/Header";
-// import Providers from "@/components/shared/providers";
+import Providers from "@/components/shared/providers";
 import Script from "next/script";
 import Footer from "@/components/layout/Footer";
-import dynamic from "next/dynamic";
 
-// Providers를 클라이언트 전용으로 동적 import
-const Providers = dynamic(() => import("@/components/shared/providers"), {
-  ssr: false // 서버 사이드 렌더링을 하지 않음
-});
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
