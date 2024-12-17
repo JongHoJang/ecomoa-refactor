@@ -1,3 +1,4 @@
+"use client";
 import { StoreWithExtra } from "@/types/map";
 import { useModalStore } from "@/zustand/modalStore";
 import React, { Dispatch, SetStateAction } from "react";
