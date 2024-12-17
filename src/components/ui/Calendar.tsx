@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from "react";
 import useCalendar from "@/hooks/useCalendar";
 import { calendarApi } from "@/api/calendarApi";

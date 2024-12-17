@@ -1,3 +1,5 @@
+"use client";
+
 import { Challenge } from "@/types/community";
 import Image from "next/image";
 import { useEffect, useState } from "react";

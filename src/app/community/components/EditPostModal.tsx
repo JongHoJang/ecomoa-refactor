@@ -1,3 +1,5 @@
+"use client";
+
 import { Post } from "@/types/community";
 
 import { createClient } from "@/utlis/supabase/client";

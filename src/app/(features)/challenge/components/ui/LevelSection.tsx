@@ -1,3 +1,4 @@
+"use client";
 import { LevelInfo } from "@/types/challengesType";
 import Image from "next/image";
 import LevelSectionSkeleton from "./LevelSectionSkeleton";

@@ -1,4 +1,4 @@
-// hooks/useImageUpload.ts
+"use client";
 import { ImageValidation } from "@/types/challengesType";
 import { useState, useEffect } from "react";
 
