@@ -1,3 +1,4 @@
+import { useRecentMyFiveMonthsEmissions } from "@/hooks/useRecentMyFiveMonthsEmissions";
 import Loading from "./Loading";
 import MonthlyChartMain from "./MonthlyChartMain";
 import { useRecentFiveMonthsEmissions } from "@/hooks/useRecentFiveMonthsEmissions";
@@ -16,7 +17,7 @@ const CompareMonthlyEmissions = () => {
     data: currentData,
     isLoading: isCurrentLoading,
     error: currentDataError
-  } = useRecentFiveMonthsEmissions(currentYear, currentMonth, 5);
+  } = useRecentMyFiveMonthsEmissions(currentYear, currentMonth, 5);
 
   if (isEmissionsLoading || isCurrentLoading) {
     return (
