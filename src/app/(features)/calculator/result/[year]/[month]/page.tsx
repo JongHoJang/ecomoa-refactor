@@ -37,24 +37,24 @@ const ResultPage: React.FC = () => {
 
   // 이미지 다운로드 라이브러리 실행 (버튼 핸들러)
   const handleSaveImage = useCallback(() => {
-    if (!sectionRef.current) return;
-
-    toJpeg(sectionRef.current, {
-      quality: 0.95,
-      canvasWidth: sectionRef.current.offsetWidth + 100,
-      canvasHeight: sectionRef.current.offsetHeight + 100,
-      backgroundColor: "white"
-    })
-      .then((dataUrl) => {
-        const link = document.createElement("a");
-        link.download = `${year}-${month}-history.jpeg`;
-        link.href = dataUrl;
-        link.click();
-        alert("저장이 완료되었습니다.");
+    if (typeof window !== "undefined" && sectionRef.current) {
+      toJpeg(sectionRef.current, {
+        quality: 0.95,
+        canvasWidth: sectionRef.current.offsetWidth + 100,
+        canvasHeight: sectionRef.current.offsetHeight + 100,
+        backgroundColor: "white"
       })
-      .catch((error) => {
-        console.error("Image saving failed:", error);
-      });
+        .then((dataUrl) => {
+          const link = document.createElement("a");
+          link.download = `${year}-${month}-history.jpeg`;
+          link.href = dataUrl;
+          link.click();
+          alert("저장이 완료되었습니다.");
+        })
+        .catch((error) => {
+          console.error("Image saving failed:", error);
+        });
+    }
   }, [year, month]);
 
   if (isLoading) {

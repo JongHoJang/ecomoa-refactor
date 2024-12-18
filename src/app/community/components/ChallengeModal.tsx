@@ -64,7 +64,10 @@ const ChallengeModal = ({
   // 클라이언트에서만 실행하도록
   const handleFileInputClick = () => {
     if (isClient) {
-      document.getElementById("imageInput")?.click();
+      const imageInput = document.getElementById(
+        "imageInput"
+      ) as HTMLInputElement;
+      imageInput?.click();
     }
   };
 

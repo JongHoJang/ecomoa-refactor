@@ -20,21 +20,23 @@ const KakaoMap = ({ storeList, selectedStoreId, onClick }: KakaoMapProps) => {
   } | null>(null);
 
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_APP_JS_KEY}&autoload=false`;
-    script.async = true;
+    if (typeof window !== "undefined") {
+      const script = document.createElement("script");
+      script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_APP_JS_KEY}&autoload=false`;
+      script.async = true;
 
-    script.onload = () => {
-      window.kakao.maps.load(() => {
-        setIsMapLoaded(true);
-      });
-    };
+      script.onload = () => {
+        window.kakao.maps.load(() => {
+          setIsMapLoaded(true);
+        });
+      };
 
-    document.head.appendChild(script);
+      document.head.appendChild(script);
 
-    return () => {
-      document.head.removeChild(script);
-    };
+      return () => {
+        document.head.removeChild(script);
+      };
+    }
   }, []);
 
   useEffect(() => {

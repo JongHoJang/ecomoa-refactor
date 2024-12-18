@@ -45,33 +45,34 @@ const Header = () => {
     setIsMenuOpen(false);
   };
 
-  const supabase = createClient();
-  supabase.auth.onAuthStateChange((event, session) => {
-    if (event === "INITIAL_SESSION") {
-    }
-    if (event === "SIGNED_IN") {
-      loginUser({
-        email: session?.user.email as string,
-        accessToken: session?.access_token as string,
-        id: session?.user.id as string,
-        isAuthenticated: true
-      });
-    }
-  });
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_IN") {
+        loginUser({
+          email: session?.user.email as string,
+          accessToken: session?.access_token as string,
+          id: session?.user.id as string,
+          isAuthenticated: true
+        });
+      }
+    });
+  }, []);
 
   const levelInfo = calculateLevelInfo(userInfo?.user_point ?? 0);
 
   useEffect(() => {
-    const getUserFetch = async () => {
-      const res = await getUserInfo(user.id);
-      setUserInfo(res);
-    };
-    getUserFetch();
+    if (user.id) {
+      const getUserFetch = async () => {
+        const res = await getUserInfo(user.id);
+        setUserInfo(res);
+      };
+      getUserFetch();
+    }
   }, [user]);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      // 클라이언트 환경에서만 실행되도록
+    if (typeof document !== "undefined") {
       if (isMenuOpen) {
         document.body.style.overflow = "hidden";
       } else {
