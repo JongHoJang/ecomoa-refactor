@@ -26,8 +26,10 @@ const StoreCard = ({
   const { isBookmarked, handleToggleBookmark } = useBookmark(store.store_id);
   const { user } = userStore();
 
+  // 클라이언트에서만 실행되는 함수 (SSR/CSR 충돌 방지)
   const scrollToTop = () => {
     if (typeof window !== "undefined") {
+      // window가 정의된 경우 (CSR 환경)
       const scrollableDiv = document.querySelector(".overflow-y-auto");
       if (scrollableDiv) {
         scrollableDiv.scrollTo(0, 0);
@@ -37,15 +39,15 @@ const StoreCard = ({
 
   const handleSaveStore = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (
-      user.accessToken === "" ||
-      user.accessToken === null ||
-      user.accessToken === undefined
-    )
+
+    // 로그인된 유저만 가능하도록 처리
+    if (!user?.accessToken) {
       return alert("로그인된 유저만 가능합니다.");
+    }
+
     if (!isBookmarked) {
       try {
-        await handleToggleBookmark();
+        await handleToggleBookmark(); // 북마크 처리
 
         openModal({
           type: "custom",
@@ -54,7 +56,7 @@ const StoreCard = ({
               onViewSaved={() => {
                 closeModal();
                 setActiveTab("saved");
-                scrollToTop();
+                scrollToTop(); // 저장 후 스크롤을 최상단으로 이동
                 setSelectedStoreId(store.store_id);
               }}
             />
@@ -65,6 +67,7 @@ const StoreCard = ({
         alert("저장에 실패했습니다. 다시 시도해주세요.");
       }
     } else {
+      // 이미 저장된 경우 북마크를 토글만 함
       await handleToggleBookmark();
     }
   };
